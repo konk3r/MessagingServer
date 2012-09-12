@@ -47,7 +47,7 @@ describe User do
 
   describe 'Generating JSON' do
     it 'should create JSON with limited fields for mobile requests' do
-      json = @user.as_mobile_request_json
+      json = @user.to_json
       json.should include "name"
       json.should include "username"
       json.should include "created_at"

@@ -9,6 +9,7 @@ gem 'sqlite3'
 
 gem 'haml'
 gem 'sass'
+gem 'bcrypt-ruby'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
