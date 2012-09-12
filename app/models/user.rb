@@ -1,11 +1,12 @@
 class User < ActiveRecord::Base
+  has_secure_password
   attr_accessible :username, :password, :first_name, :last_name
-  validates :username, :presence => true
-  validates :password, :presence => true
+  validates_presence_of :username
+  validates_presence_of :password, :on => :create
   validates_uniqueness_of :username
   
-  def as_mobile_request_json
-    as_json(:only => [:username, :created_at], :methods => "name")
+  def as_json(params = nil)
+    super(:only => [:username, :created_at], :methods => "name")
   end
   
   def name
