@@ -4,5 +4,6 @@ FactoryGirl.define do
     password 'password'
     first_name 'conker'
     last_name 'shocka'
+    id 2
   end
 end

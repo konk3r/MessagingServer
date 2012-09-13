@@ -1,16 +1,17 @@
 class CreateMessages < ActiveRecord::Migration
   def self.up
     create_table :messages do |t|
-      t.date :times_sent
-      t.date :time_received
+      t.datetime :sent_time
+      t.datetime :received_time
+      t.datetime :last_updated
       t.string :text
       t.boolean :deleted
-      t.references :user_from
-      t.references :user_to
+      t.references :sender
+      t.references :receiver
       
     end
-    add_index :messages, :user_from_id
-    add_index :messages, :user_to_id
+    add_index :messages, :sender_id
+    add_index :messages, :receiver_id
   end
   
   def self.down

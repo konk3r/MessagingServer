@@ -11,7 +11,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120910224212) do
+ActiveRecord::Schema.define(:version => 20120912032046) do
+
+  create_table "messages", :force => true do |t|
+    t.datetime "sent_time"
+    t.datetime "received_time"
+    t.datetime "last_updated"
+    t.string   "text"
+    t.boolean  "deleted"
+    t.integer  "sender_id"
+    t.integer  "receiver_id"
+  end
+
+  add_index "messages", ["receiver_id"], :name => "index_messages_on_receiver_id"
+  add_index "messages", ["sender_id"], :name => "index_messages_on_sender_id"
 
   create_table "users", :force => true do |t|
     t.string   "username"

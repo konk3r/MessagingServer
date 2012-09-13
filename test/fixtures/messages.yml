@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  times_sent: 2012-09-11
+  time_received: 2012-09-11
+  text: MyString
+  user_from: 
+  user_to: 
+
+two:
+  times_sent: 2012-09-11
+  time_received: 2012-09-11
+  text: MyString
+  user_from: 
+  user_to: 
