@@ -1,13 +1,14 @@
 Smessage::Application.routes.draw do
 
-  root :to => "home#index"
+  root :to => 'home#index'
   
-  post 'user/sign_up' => "users#create"
-  post 'user/delete' => "users#destroy"
+  post 'login' => 'sessions#create'
+  post 'logout' => 'sessions#destroy'
   
-  post 'login' => "sessions#create"
-  post 'logout' => "sessions#destroy"
+  post 'user/sign_up' => 'users#create'
+  post 'user/delete' => 'users#destroy'
   
+  post 'user/:id/message' => 'messages#create'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -2,21 +2,88 @@ require 'spec_helper'
 
 describe MessagesController do
   describe 'Sending a message' do
-    it 'should not send a message if user is not authenticated'
-    it 'should not send a message if sending user does not match the authenticated user'
+    before :each do
+      @sender_id, @receiver_id, @alt_id = 1, 2, 3
+      @time, @text = Time.zone.now, "message text"
+      @user = FactoryGirl.build(:user, :id => @sender_id)
+      @params = {"receiver_id" => @receiver_id, "sent_time" => @time,
+        "text" => @text}
+    end
+    
+    describe 'checking authentication' do
+
+        it 'should fail with a 401 if user is not authenticated' do
+          User.should_receive(:find_by_id).and_return(nil)
+          post :create, :id => @user.id, :message_json => @params.to_json
+          response.status.should == 401
+        end
+        
+        it 'should fail with a 403 if sending user is not authenticated' do
+          User.should_receive(:find_by_id).and_return(@user)
+          post :create, :id => @alt_id, :message_json => @params.to_json
+          response.status.should == 403
+        end
+    end
+    
+    describe 'response' do
+      before :each do
+        User.should_receive(:find_by_id).and_return(@user)
+      end
+      describe 'if successful' do
+        before :each do
+          User.should_receive(:exists?).with(@sender_id).and_return true
+          User.should_receive(:exists?).with(@receiver_id).and_return true
+        
+          post :create, :id => @user.id, :message_json => @params.to_json
+          @body = JSON.parse(response.body)
+        end
+      
+        it 'should return a 201: created response' do
+          response.status.should == 201
+        end
+      
+        it 'should contain the sender id it was created with' do
+          (@body.should include "sender_id" ) &&
+            @body["sender_id"].should == @sender_id
+        end
+      
+        it 'should contain the receiver id it was created with' do
+          (@body.should include "receiver_id" ) &&
+            @body["receiver_id"].should == @receiver_id
+        end
+        
+        it 'should contain the text it was created with' do
+          (@body.should include "text" ) &&
+            @body["text"].should == @text
+        end
+        
+        it 'should contain the sent time it was created with' do
+          old_time = Date.parse(@time.to_s)
+          new_time = Date.parse(@body["sent_time"])
+          (@body.should include "sent_time" ) &&
+            new_time.should ==  old_time
+        end
+        
+      end
+      
+      it "should fail with a 400 error is the message couldn't be created" do
+        message = FactoryGirl.build(:message)
+        message.should_receive(:new_record?).and_return(true)
+        Message.should_receive(:create_from_external_request).and_return(message)
+        
+        post :create, :id => @user.id, :message_json => @params.to_json
+        response.status.should == 400
+      end
+    end
   end
   
   describe 'Loading conversation' do
-    it 'should pull up all messages between both users sorted by time sent'
     it 'should return messages in json format'
-    it 'should throw an error if one of the users does not exist'
+    it 'should return a 404 if one of the sending user does not exist'
+    it 'should return a 404 if one of the receiving user does not exist'
   end
   
   describe 'Updating a message' do
-    
-  end
-  
-  describe 'Deleting a message' do
     
   end
 end

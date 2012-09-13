@@ -10,52 +10,74 @@ describe Message do
   
   describe 'creating a message' do
     describe 'Invalid User' do
-      before :each do
-        @params = {:sent_time => @time, :text => @text}
-      end
       
       it 'should not create a message if sender is not sent' do
         User.should_receive(:exists?).with(@receiver_id).and_return true
-        message = Message.create(:receiver_id => @receiver_id, :text => @text, :sent_time => @time)
-        message.should be_new_record
+        params = {:receiver_id => @receiver_id, :text => @text,
+          :sent_time => @time}
+        message = Message.create_from_external_request(params)
+        message.should be_new_record if message
       end
       
       it 'should not create a message if sender is not in database' do
         User.should_receive(:exists?).with(@sender_id).and_return false
         User.should_receive(:exists?).with(@receiver_id).and_return true
-        message = Message.create(:sender_id => @sender_id, :receiver_id => @receiver_id, :text => @text, :sent_time => @time)
-        message.should be_new_record
+        params = {:sender_id => @sender_id, :receiver_id => @receiver_id,
+          :text => @text, :sent_time => @time}
+        message = Message.create_from_external_request(params)
+        message.should be_new_record if message
       end
       
       it 'should not create a message if receiver is not sent' do
-        User.should_receive(:exists?).with(@sender_id).and_return true
-        message = Message.create(:sender_id => @sender_id, :text => @text, :sent_time => @time)
-        message.should be_new_record
+      User.should_receive(:exists?).with(@sender_id).and_return true
+        params = {:sender_id => @sender_id, :text => @text,
+          :sent_time => @time}
+        message = Message.create_from_external_request(params)
+        message.should be_new_record if message
       end
       
       it 'should not create a message if receiver is not in database' do
         User.should_receive(:exists?).with(@sender_id).and_return true
         User.should_receive(:exists?).with(@receiver_id).and_return false
-        message = Message.create(:sender_id => @sender_id, :receiver_id => @receiver_id, :text => @text, :sent_time => @time)
-        message.should be_new_record
+        params = {:sender_id => @sender_id, :receiver_id => @receiver_id,
+          :text => @text, :sent_time => @time}
+        message = Message.create_from_external_request(params)
+        message.should be_new_record if message
       end
       
     end
     
     describe 'Invalid parameters' do
-      before :each do
-        User.should_receive(:exists?).with(@sender_id).and_return true
-        User.should_receive(:exists?).with(@receiver_id).and_return true
-      end
       
       it 'should not create a message without a sent time' do
-        message = Message.create(:sender_id => @sender_id, :receiver_id => @receiver_id, :text => @text)
-        message.should be_new_record
+        params = {:sender_id => @sender_id, :receiver_id => @receiver_id,
+          :text => @text}
+        message = Message.create_from_external_request(params)
+        message.should be_new_record if message
       end
       
       it 'should not create a message without text' do
-        message = Message.create(:sender_id => @sender_id, :receiver_id => @receiver_id, :sent_time => @time)
-        message.should be_new_record
+        params = {:sender_id => @sender_id, :receiver_id => @receiver_id,
+          :sent_time => @time}
+        message = Message.create_from_external_request(params)
+        message.should be_new_record if message
+      end
+
+      it 'should not create a message without text' do
+        params = {:sender_id => @sender_id, :receiver_id => @receiver_id,
+          :sent_time => @time}
+        message = Message.create_from_external_request(params)
+        message.should be_new_record if message
+      end
+      
+      it 'should strip extra parameters from a request' do
+        User.should_receive(:exists?).with(@sender_id).and_return true
+        User.should_receive(:exists?).with(@receiver_id).and_return true
+        
+        params = {:sender_id => @sender_id, :receiver_id => @receiver_id,
+          :text => @text, :sent_time => @time, :deleted => true}
+        message = Message.create_from_external_request(params)
+        message.deleted.should == nil
       end
       
     end
@@ -64,17 +86,17 @@ describe Message do
       before :each do
         User.should_receive(:exists?).with(@sender_id).and_return true
         User.should_receive(:exists?).with(@receiver_id).and_return true
-        @message = Message.create(:sender_id => @sender_id,
-          :receiver_id => @receiver_id, :text => @text,
-          :sent_time => @time)
         
+        params = {:sender_id => @sender_id, :receiver_id => @receiver_id,
+          :text => @text, :sent_time => @time}
+        @message = Message.create_from_external_request(params)
       end
       
       it 'should return a stored message' do
         @message.should_not be_new_record
       end
       it 'should contain the time it was created with' do
-        @message.sent_time.should == @time
+        @time.should == @message.sent_time
       end
       it 'should contain the text it was created with' do
         @message.text.should == @text

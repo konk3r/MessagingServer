@@ -8,7 +8,7 @@ describe UsersController do
   end
   
   describe 'Creating a user' do
-    it 'should request a new user be created in the database from the given username and password' do
+    it 'should result in a create call being sent to the User model' do
       User.should_receive(:create)
         .with(:username => @username, :password => @password)
         .and_return(FactoryGirl.build(:user))
@@ -48,31 +48,28 @@ describe UsersController do
   end
   
   describe "Deleting a user" do
-    it "should return 401 error on delete user if not authenticated" do
-      user = FactoryGirl.build :user, :username => @username, :password => @password
-      UsersController.any_instance.should_receive(:current_user)
-        .at_least(1).times.and_return(user)
       
-      post :destroy, {:username => @invalid_username}
-      response.status.should ==  401
-      response.body.should include "error"
-    end
-      
-    it "should return 401 error on delete user if not authenticated as that user" do
+    it "should return 401 error on if not authenticated" do
       post :destroy, {:username => @invalid_username}
       response.status.should ==  401
       response.body.should include "error"
     end
     
-    it "should return 200 and delete user from database if user requests deletion while authenticated" do
+    it "should return 403 error user if not authenticated as that user" do
       user = FactoryGirl.build :user, :username => @username, :password => @password
-      
+      User.should_receive(:find_by_id).and_return(user)
+
+      post :destroy, {:username => @invalid_username}
+      response.status.should ==  403
+      response.body.should include "error"
+    end
+    
+    it "should return 200 and remove user from database" do
+      user = FactoryGirl.build :user, :username => @username, :password => @password
+      User.should_receive(:find_by_id).and_return(user)
       user.should_receive(:destroy)
-      UsersController.any_instance.should_receive(:current_user)
-        .at_least(2).times.and_return(user)
       
       post :destroy, {:username =>@username}
-      response.status.should ==  200
     end
   end
   

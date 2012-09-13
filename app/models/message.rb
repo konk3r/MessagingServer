@@ -27,8 +27,24 @@ class Message < ActiveRecord::Base
     '(sender_id =? AND recipient_id =?) OR (sender_id =? AND recipient_id =?)',
     user_a.id, user_b.id, user_b.id, user_a.id).order('time_sent DESC') }
 
-    def self.dispatch(sender, receiver, params)
-      message = Message.create(:sender_id => sender.id, :receiver_id => receiver.id, :text => params[:text], :sent_time => params[:sent_time])
-      message.new_record?
+  def self.create_from_external_request(params)
+    @params = params
+    convert_param_keys_to_symbols
+    filter_params
+    Message.create(@params)
+  end
+  
+  def self.convert_param_keys_to_symbols
+    @params = Hash[
+      @params.map {|key, value| [key.to_sym, value]}
+      ]
+  end
+  
+  def self.filter_params
+    allowed_params = [:sender_id, :receiver_id, :sent_time, :text]
+
+    @params.reject! do |key, value|
+      !allowed_params.include? key
     end
+  end
 end

@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_filter :authenticate_user, :only => :destroy
   
   def create
     @user = User.create(:username => params[:username],
@@ -13,18 +14,13 @@ class UsersController < ApplicationController
   end
   
   def destroy
-    if !authenticated_as_current_user
-      return render :status => :unauthorized,
+    if params[:username] != @current_user.username
+      return render :status => :forbidden,
        :json => {:error => "Must be signed in as user to delete it"}
     end
     
-    current_user.destroy
-    render :json => current_user  
-  end
-  
-  def authenticated_as_current_user
-    authenticated_as_current_user = current_user &&
-      ( params[:username] == current_user.username )
+    @current_user.destroy
+    render :json => @current_user  
   end
   
   def set_response_status_and_error_message
