@@ -1,11 +1,8 @@
 class MessagesController < ApplicationController
   before_filter :authenticate_user
+  before_filter :authorize_user, :only => [:create, :show]
+  
   def create
-    if @current_user.id.to_s != params[:id]
-      return render :status => :forbidden, :json => {:error =>
-        'Must be signed in as user to send message from it'}
-    end
-    
     build_request_parameters
     message = Message.create_from_external_request(@message_params)
     if message.new_record?
@@ -16,10 +13,28 @@ class MessagesController < ApplicationController
     end
   end
 
+  def show
+    if !User.exists?(params[:contact_id])
+      render :status => :not_found,
+        :json => {:error => "resource not found"} and return
+    end
+    
+    contact = User.find_by_id(params[:contact_id])
+    conversation = Message.conversation_between(@current_user, contact)
+    render :status => :ok, :json => conversation
+  end
+
   def update
   end
   
   def destroy
+  end
+
+  def authorize_user
+    if @current_user.id.to_s != params[:id]
+      return render :status => :forbidden, :json => {:error =>
+        'Must be signed in as user to make request from it'}
+    end
   end
   
   def build_request_parameters

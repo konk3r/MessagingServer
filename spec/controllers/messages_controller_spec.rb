@@ -6,7 +6,7 @@ describe MessagesController do
       @sender_id, @receiver_id, @alt_id = 1, 2, 3
       @time, @text = Time.zone.now, "message text"
       @user = FactoryGirl.build(:user, :id => @sender_id)
-      @params = {"receiver_id" => @receiver_id, "sent_time" => @time,
+      @params = {"receiver_id" => @receiver_id, "sent_at" => @time,
         "text" => @text}
     end
     
@@ -38,7 +38,7 @@ describe MessagesController do
           @body = JSON.parse(response.body)
         end
       
-        it 'should return a 201: created response' do
+        it 'should return 201' do
           response.status.should == 201
         end
       
@@ -59,14 +59,14 @@ describe MessagesController do
         
         it 'should contain the sent time it was created with' do
           old_time = Date.parse(@time.to_s)
-          new_time = Date.parse(@body["sent_time"])
-          (@body.should include "sent_time" ) &&
+          new_time = Date.parse(@body["sent_at"])
+          (@body.should include "sent_at" ) &&
             new_time.should ==  old_time
         end
         
       end
       
-      it "should fail with a 400 error is the message couldn't be created" do
+      it "should fail with a 400 error if the message couldn't be created" do
         message = FactoryGirl.build(:message)
         message.should_receive(:new_record?).and_return(true)
         Message.should_receive(:create_from_external_request).and_return(message)
@@ -78,9 +78,36 @@ describe MessagesController do
   end
   
   describe 'Loading conversation' do
-    it 'should return messages in json format'
-    it 'should return a 404 if one of the sending user does not exist'
-    it 'should return a 404 if one of the receiving user does not exist'
+    before :each do
+      @user_id, @contact_id = 0, 1
+    end
+    
+    it 'should fail with a 401 if user is not authenticated' do
+      post :show, :id => @user_id, :contact_id => @contact_id
+      response.status.should == 401
+    end
+    
+    describe 'when authenticated' do
+      before :each do
+        user = FactoryGirl.build(:user, :id => @user_id)
+        @contact = FactoryGirl.build(:user, :id => @contact_id)
+        User.should_receive(:find_by_id).and_return(user)
+      end
+      
+      it 'should return a 200 and the messages as valid json' do
+        User.should_receive(:find_by_id).and_return(@contact)
+        User.should_receive(:exists?).with(@contact_id.to_s).and_return(true)
+        post :show, :id => @user_id, :contact_id => @contact_id
+        JSON.parse(response.body)
+      end
+    
+      it 'should return a 404 if the secondary user does not exist' do
+        User.should_receive(:exists?).with(@contact_id.to_s).and_return(false)
+        post :show, :id => @user_id, :contact_id => @contact_id
+      
+        response.status.should == 404
+      end
+    end
   end
   
   describe 'Updating a message' do

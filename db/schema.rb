@@ -14,13 +14,14 @@
 ActiveRecord::Schema.define(:version => 20120912032046) do
 
   create_table "messages", :force => true do |t|
-    t.datetime "sent_time"
-    t.datetime "received_time"
-    t.datetime "last_updated"
+    t.datetime "sent_at"
+    t.datetime "received_at"
     t.string   "text"
     t.boolean  "deleted"
     t.integer  "sender_id"
     t.integer  "receiver_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "messages", ["receiver_id"], :name => "index_messages_on_receiver_id"

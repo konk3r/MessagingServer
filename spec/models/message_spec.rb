@@ -14,7 +14,7 @@ describe Message do
       it 'should not create a message if sender is not sent' do
         User.should_receive(:exists?).with(@receiver_id).and_return true
         params = {:receiver_id => @receiver_id, :text => @text,
-          :sent_time => @time}
+          :sent_at => @time}
         message = Message.create_from_external_request(params)
         message.should be_new_record if message
       end
@@ -23,7 +23,7 @@ describe Message do
         User.should_receive(:exists?).with(@sender_id).and_return false
         User.should_receive(:exists?).with(@receiver_id).and_return true
         params = {:sender_id => @sender_id, :receiver_id => @receiver_id,
-          :text => @text, :sent_time => @time}
+          :text => @text, :sent_at => @time}
         message = Message.create_from_external_request(params)
         message.should be_new_record if message
       end
@@ -31,7 +31,7 @@ describe Message do
       it 'should not create a message if receiver is not sent' do
       User.should_receive(:exists?).with(@sender_id).and_return true
         params = {:sender_id => @sender_id, :text => @text,
-          :sent_time => @time}
+          :sent_at => @time}
         message = Message.create_from_external_request(params)
         message.should be_new_record if message
       end
@@ -40,7 +40,7 @@ describe Message do
         User.should_receive(:exists?).with(@sender_id).and_return true
         User.should_receive(:exists?).with(@receiver_id).and_return false
         params = {:sender_id => @sender_id, :receiver_id => @receiver_id,
-          :text => @text, :sent_time => @time}
+          :text => @text, :sent_at => @time}
         message = Message.create_from_external_request(params)
         message.should be_new_record if message
       end
@@ -58,14 +58,14 @@ describe Message do
       
       it 'should not create a message without text' do
         params = {:sender_id => @sender_id, :receiver_id => @receiver_id,
-          :sent_time => @time}
+          :sent_at => @time}
         message = Message.create_from_external_request(params)
         message.should be_new_record if message
       end
 
       it 'should not create a message without text' do
         params = {:sender_id => @sender_id, :receiver_id => @receiver_id,
-          :sent_time => @time}
+          :sent_at => @time}
         message = Message.create_from_external_request(params)
         message.should be_new_record if message
       end
@@ -75,7 +75,7 @@ describe Message do
         User.should_receive(:exists?).with(@receiver_id).and_return true
         
         params = {:sender_id => @sender_id, :receiver_id => @receiver_id,
-          :text => @text, :sent_time => @time, :deleted => true}
+          :text => @text, :sent_at => @time, :deleted => true}
         message = Message.create_from_external_request(params)
         message.deleted.should == nil
       end
@@ -88,7 +88,7 @@ describe Message do
         User.should_receive(:exists?).with(@receiver_id).and_return true
         
         params = {:sender_id => @sender_id, :receiver_id => @receiver_id,
-          :text => @text, :sent_time => @time}
+          :text => @text, :sent_at => @time}
         @message = Message.create_from_external_request(params)
       end
       
@@ -96,7 +96,7 @@ describe Message do
         @message.should_not be_new_record
       end
       it 'should contain the time it was created with' do
-        @time.should == @message.sent_time
+        @time.should == @message.sent_at
       end
       it 'should contain the text it was created with' do
         @message.text.should == @text

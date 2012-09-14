@@ -9,6 +9,7 @@ Smessage::Application.routes.draw do
   post 'user/delete' => 'users#destroy'
   
   post 'user/:id/message' => 'messages#create'
+  post 'user/:id/messages/:contact_id' => 'messages#show'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
