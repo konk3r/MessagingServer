@@ -8,8 +8,8 @@ Smessage::Application.routes.draw do
   post 'user/sign_up' => 'users#create'
   post 'user/delete' => 'users#destroy'
   
-  post 'user/:id/message' => 'messages#create'
-  post 'user/:id/messages/:contact_id' => 'messages#show'
+  post 'user/:id/contact/:contact_id/message' => 'messages#create'
+  get 'user/:id/contact/:contact_id/messages/' => 'messages#show'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

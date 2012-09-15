@@ -21,6 +21,10 @@ class User < ActiveRecord::Base
     self.last_name ||= ""
     self.first_name + " " + self.last_name
   end
+  
+  def contacts_with(contact)
+    return self.relationships.where(contact_id:contact.id).size == 1
+  end
 
   def add_contact(contact)
     Relationship.create(user_id:self.id, contact_id:contact.id)
