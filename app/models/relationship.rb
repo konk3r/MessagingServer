@@ -1,38 +1,26 @@
 class Relationship < ActiveRecord::Base
-  attr_accessible :contact_id, :approved
+  attr_accessible :user_id, :contact_id, :approved, :partner_id
   
   belongs_to :user
   belongs_to :contact, class_name: "User"
+  after_create :create_partner
   after_destroy :destroy_partner
+  
+  def create_partner
+    return if Relationship.exists?(self.partner_id)
+    
+    partner = Relationship.create(user_id:self.contact_id, contact_id:self.user_id,
+      partner_id:self.id, approved: :response_requested)
+    
+    self.approved = :pending_partner_action
+    self.partner_id = partner.id
+    self.save
+  end
   
   def destroy_partner
     if Relationship.exists?(self.partner_id)
       Relationship.find(self.partner_id).destroy
     end
-  end
-  
-  def self.create_contact_request(from_user, to_user)
-    @requesting_relationship = from_user.relationships
-      .build(contact_id:to_user.id, approved: :pending_partner_action)
-    @receiving_relationship = to_user.relationships
-      .build(contact_id:from_user.id, approved: :response_requested)
-    
-    @requesting_relationship.save
-    @receiving_relationship.save
-    
-    self.share_partner_ids
-    
-    return @requesting_relationship, @receiving_relationship
-  end
-  
-  def self.share_partner_ids
-    @requesting_relationship.partner_id =
-      @receiving_relationship.id 
-    @receiving_relationship.partner_id =
-      @requesting_relationship.id
-    
-    @requesting_relationship.save
-    @receiving_relationship.save
   end
   
   def accept
@@ -42,14 +30,12 @@ class Relationship < ActiveRecord::Base
         "User which created contact request cannot be the one to approve it"
     end
     
-    load_partner
-    
-    self.approved = :true; @partner.approved = :true
-    self.save && @partner.save
+    self.approved = :true; self.partner.approved = :true
+    self.save && self.partner.save
   end
   
-  def load_partner
-    @partner = Relationship.find_by_id(partner_id)
+  def partner
+    @partner ||= Relationship.find_by_id(partner_id)
   end
   
   class UnauthorizedError < Error

@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   end
 
   def add_contact(contact)
-    Relationship.create_contact_request(self, contact)
+    Relationship.create(user_id:self.id, contact_id:contact.id)
   end
   
   def accept_contact(contact)
