@@ -18,7 +18,7 @@ describe SessionsController do
           post :create, {:username => @username, :password => @password}
         end
         
-        it 'should return a status 200: ok return the json representation of the user for a successful login' do
+        it 'should return status 200' do
           response.status.should == 200
         end
         
