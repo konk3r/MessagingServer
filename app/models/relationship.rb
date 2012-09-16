@@ -6,6 +6,10 @@ class Relationship < ActiveRecord::Base
   after_create :create_partner
   after_destroy :destroy_partner
   
+  def partner
+    @partner ||= Relationship.find_by_id(partner_id)
+  end
+  
   def create_partner
     return if Relationship.exists?(self.partner_id)
     
@@ -23,6 +27,14 @@ class Relationship < ActiveRecord::Base
     end
   end
   
+  def disconnect
+    self.approved = :false
+    partner.approved = :false
+    
+    self.save; partner.save
+    return self
+  end
+  
   def accept
     partner_must_approve = (approved.to_s == :pending_partner_action.to_s)
     if partner_must_approve
@@ -31,11 +43,12 @@ class Relationship < ActiveRecord::Base
     end
     
     self.approved = :true; self.partner.approved = :true
-    self.save && self.partner.save
+    self.save; self.partner.save
+    return self
   end
   
-  def partner
-    @partner ||= Relationship.find_by_id(partner_id)
+  def as_json(params = nil)
+    super(:only => [:contact_id, :approved])
   end
   
   class UnauthorizedError < Error

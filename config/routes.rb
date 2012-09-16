@@ -1,15 +1,20 @@
 Smessage::Application.routes.draw do
-
   root :to => 'home#index'
   
   post 'login' => 'sessions#create'
-  post 'logout' => 'sessions#destroy'
+  delete 'logout' => 'sessions#destroy'
   
   post 'user/sign_up' => 'users#create'
-  post 'user/delete' => 'users#destroy'
+  delete 'user/delete' => 'users#destroy'
+  
+  get 'user/:id/contacts' => 'contacts#show'
+  post 'user/:id/contact/:contact_id/' => 'contacts#create'
+  put 'user/:id/contact/:contact_id/' => 'contacts#update' #accept => true
+  delete 'user/:id/contact/:contact_id/' => 'contacts#destroy'
   
   post 'user/:id/contact/:contact_id/message' => 'messages#create'
   get 'user/:id/contact/:contact_id/messages/' => 'messages#show'
+  
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

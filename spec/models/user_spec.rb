@@ -60,6 +60,7 @@ describe User do
   describe 'Contact requests' do
     before :each do
       user.add_contact(contact)
+      contact.accept_contact(user)
     end
     
     it 'should confirm if a user is contacts with it' do
@@ -80,10 +81,10 @@ describe User do
         .first.approved.should == :true.to_s
     end
     
-    it 'should delete contacts' do
+    it 'should disconnect contacts' do
       user.remove_contact(contact)
       user.relationships.where(contact_id:contact.id)
-        .should be_empty
+        .first.approved.to_s.should == "false"
     end
   end
 end

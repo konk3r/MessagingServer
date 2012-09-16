@@ -8,6 +8,12 @@ describe Relationship do
     contact_id:contact.id) }
   let(:receiving) { requesting.partner }
   
+  it 'should return only contact id and approved status with to_json' do
+    requesting.to_json.should include("approved")
+    requesting.to_json.should include("contact_id")
+    requesting.to_json.should_not include("user_id")
+  end
+  
   describe 'sending a new contact request' do
 
     it 'both relationships should be saved' do
@@ -43,6 +49,14 @@ describe Relationship do
       requesting.destroy
       Relationship.exists?(requesting.id).should == false
       Relationship.exists?(receiving.id).should == false
+    end
+  end
+  
+  describe 'disconnecting a relationship' do
+    it 'should mark both relationships approved status to false' do
+      requesting.disconnect
+      requesting.approved.should == :false
+      receiving.approved.should == :false
     end
   end
 end

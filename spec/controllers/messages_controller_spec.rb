@@ -97,6 +97,10 @@ describe MessagesController do
   end
   
   describe 'Loading conversation' do
+    before :each do
+      user.add_contact(contact)
+      contact.accept_contact(user)
+    end
     
     it 'should fail with a 401 if user is not authenticated' do
       get :show, :id => user_id, :contact_id => contact_id
@@ -112,7 +116,9 @@ describe MessagesController do
         User.should_receive(:find_by_id).and_return(contact)
         User.should_receive(:exists?).at_least(1).times.and_return(true)
         get :show, :id => user_id, :contact_id => contact_id
-        JSON.parse(response.body)
+        
+        JSON.parse(response.body).should_not == nil
+        response.status.should == 200
       end
     
       it 'should return a 404 if the secondary user does not exist' do
@@ -124,7 +130,4 @@ describe MessagesController do
     end
   end
   
-  describe 'Updating a message' do
-    
-  end
 end

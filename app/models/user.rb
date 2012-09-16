@@ -23,7 +23,8 @@ class User < ActiveRecord::Base
   end
   
   def contacts_with(contact)
-    return self.relationships.where(contact_id:contact.id).size == 1
+    return self.relationships.where(contact_id:contact.id, approved: :true)
+      .size == 1
   end
 
   def add_contact(contact)
@@ -37,7 +38,7 @@ class User < ActiveRecord::Base
   
   def remove_contact(contact)
     relationship = find_relationship(contact)
-    relationship.destroy
+    relationship.disconnect
   end
   
   def find_relationship(contact)
