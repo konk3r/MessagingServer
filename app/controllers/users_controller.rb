@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user, :only => :destroy
+  before_filter :filter_params, :only => :create
   
   def create
-    @user = User.create(:username => params[:username],
-      :password => params[:password])
+    @user = User.create(params)
       
     set_response_status_and_error_message
     if @user.valid?
@@ -20,7 +20,7 @@ class UsersController < ApplicationController
     end
     
     @current_user.destroy
-    render :json => @current_user  
+    render :json => {:status => "User successfully deleted"}
   end
   
   def set_response_status_and_error_message
@@ -42,6 +42,11 @@ class UsersController < ApplicationController
       end
     end
     return false
+  end
+  
+  def filter_params
+    allowed_params = ["username", "password", "first_name", "last_name"]
+    params.select! {|k, v| allowed_params.include? k}
   end
   
 end

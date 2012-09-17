@@ -42,9 +42,6 @@ class Message < ActiveRecord::Base
   
   def self.filter_params
     allowed_params = [:sender_id, :receiver_id, :sent_at, :text]
-
-    @params.reject! do |key, value|
-      !allowed_params.include? key
-    end
+    @params.select! { |k, v| allowed_params.include? k }
   end
 end

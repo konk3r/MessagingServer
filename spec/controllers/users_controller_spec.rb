@@ -3,17 +3,29 @@ require 'spec_helper'
 describe UsersController do
   let(:username) { 'username' }
   let(:incorrect_username) { 'incorrect_username' }
+  let(:first) { 'first' }
+  let(:last) { 'last' }
   let(:password) { 'password' }
   let(:user) { FactoryGirl.build(
-    :user, username:username, password:incorrect_username) }
+    :user, username:username, password:password, first_name:first, last_name:last) }
   
   describe 'Creating a user' do
     it 'should result in a create call being sent to the User model' do
       User.should_receive(:create)
-        .with(:username => username, :password => password)
+        .with("username" => username, "password" => password)
         .and_return(user)
         
       post :create, {:username => username, :password => password}
+    end
+    
+    it 'should contain the first and last name it was created with' do
+      User.should_receive(:create)
+        .with("username" => username, "password" => password,
+          "first_name"=>user.first_name, "last_name"=>user.last_name)
+        .and_return(user)
+        
+      post :create, {username:username, password:password, first_name:first,
+          last_name:last}
     end
     
     describe 'Status codes' do
