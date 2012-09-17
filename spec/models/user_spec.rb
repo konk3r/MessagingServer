@@ -50,7 +50,7 @@ describe User do
       json = user.to_json
       json.should include "name"
       json.should include "username"
-      json.should include "created_at"
+      json.should include "id"
       json.should_not include "password"
       json.should_not include "first_name"
       json.should_not include "last_name"

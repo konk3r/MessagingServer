@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :username
   
   def as_json(params = nil)
-    super(:only => [:username, :created_at], :methods => "name")
+    super(:only => [:username, :id], :methods => "name")
   end
   
   def name
