@@ -1,7 +1,7 @@
 class ContactsController < ApplicationController
   before_filter :authenticate_user
   before_filter :authorize_user
-  before_filter :verify_contact
+  before_filter :verify_contact, :only => [:create, :update, :destroy]
   
   def create
     connection = @current_user.add_contact(self.contact)

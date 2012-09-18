@@ -10,7 +10,7 @@ describe ContactsController do
   
   describe 'when properly authenticated' do
     before :each do
-      User.should_receive(:exists?).at_least(1).times.and_return(true)
+      User.should_receive(:exists?).at_least(0).times.and_return(true)
     end
     
     it 'should return 200 and a list of all valid and pending contacts' do
