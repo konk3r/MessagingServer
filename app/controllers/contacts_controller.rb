@@ -4,7 +4,7 @@ class ContactsController < ApplicationController
   before_filter :verify_contact, :only => [:create, :update, :destroy]
   
   def create
-    connection = @current_user.add_contact(self.contact)
+    connection = @current_user.add_contact(@contact)
     render :json => connection
   end
   
@@ -15,7 +15,7 @@ class ContactsController < ApplicationController
   def update
     if params[:accept] && params[:accept] == true
       begin
-        contact = @current_user.accept_contact(self.contact)
+        contact = @current_user.accept_contact(@contact)
         render :json => contact
       rescue Relationship::UnauthorizedError => error
         render status: :forbidden, :json => {:error => error.message}
@@ -24,7 +24,7 @@ class ContactsController < ApplicationController
   end
 
   def destroy
-    removed_connection = @current_user.remove_contact(self.contact)
+    removed_connection = @current_user.remove_contact(@contact)
     render :json => removed_connection
   end
   
@@ -36,17 +36,18 @@ class ContactsController < ApplicationController
   end
   
   def verify_contact
-    if !User.exists?(params[:contact_id])
+    load_contact
+    if !@contact
       render :status => :not_found,
         :json => {:error => "Contact not found"} and return
     end
   end
   
-  def contact
+  def load_contact
     if params[:contact_id]
-      @contact ||= User.find_by_id(params[:contact_id])
+      @contact = User.find_by_id(params[:contact_id])
     elsif params[:contact_username]
-      @contact ||= User.find_by_username(params[:contact_username]) 
+      @contact = User.find_by_username(params[:contact_username]) 
     end
   end
 end

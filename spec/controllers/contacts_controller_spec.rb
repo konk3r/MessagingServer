@@ -22,31 +22,33 @@ describe ContactsController do
     end
     
     describe 'Requests with specific contacts' do
-      before :each do
-        User.should_receive(:find_by_id).with(contact.id.to_s)
-          .at_least(0).times.and_return(contact)
-      end
     
       it 'should create a contact request' do
         User.should_receive(:find_by_username).with(contact.username.to_s)
-          .at_least(0).times.and_return(contact)
+          .at_least(1).times.and_return(contact)
         post :create, id: user.id, contact_username: contact.username
         response.status.should == 200
       end
   
       it 'should accept contact request' do
+        User.should_receive(:find_by_id).with(contact.id.to_s)
+          .at_least(1).times.and_return(contact)
         contact.add_contact(user)
         put :update, id: user.id, contact_id: contact.id, accept:true
         response.status.should == 200
       end
   
       it 'should return error if the wrong user accepts contact request' do
+        User.should_receive(:find_by_id).with(contact.id.to_s)
+          .at_least(1).times.and_return(contact)
         user.add_contact(contact)
         put :update, id: user.id, contact_id: contact.id, accept:true
         response.status.should == 403
       end
   
       it 'should delete contacts' do
+        User.should_receive(:find_by_id).with(contact.id.to_s)
+          .at_least(1).times.and_return(contact)
         user.add_contact(contact)
         delete :destroy, id: user.id, contact_id: contact.id
         response.status.should == 200
@@ -55,7 +57,6 @@ describe ContactsController do
   end
   
   it 'should return 404 if the contact does not exist' do
-    User.should_receive(:exists?).and_return(false)
     post :create, id: user.id, contact_username: contact.username
     response.status.should == 404
   end
