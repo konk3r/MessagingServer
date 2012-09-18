@@ -43,6 +43,10 @@ class ContactsController < ApplicationController
   end
   
   def contact
-    @contact ||= User.find_by_id(params[:contact_id])
+    if params[:contact_id]
+      @contact ||= User.find_by_id(params[:contact_id])
+    elsif params[:contact_username]
+      @contact ||= User.find_by_username(params[:contact_username]) 
+    end
   end
 end

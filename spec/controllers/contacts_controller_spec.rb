@@ -23,11 +23,14 @@ describe ContactsController do
     
     describe 'Requests with specific contacts' do
       before :each do
-        User.should_receive(:find_by_id).with(contact.id.to_s).and_return(contact)
+        User.should_receive(:find_by_id).with(contact.id.to_s)
+          .at_least(0).times.and_return(contact)
       end
     
       it 'should create a contact request' do
-        post :create, id: user.id, contact_id: contact.id
+        User.should_receive(:find_by_username).with(contact.username.to_s)
+          .at_least(0).times.and_return(contact)
+        post :create, id: user.id, contact_username: contact.username
         response.status.should == 200
       end
   
@@ -53,12 +56,12 @@ describe ContactsController do
   
   it 'should return 404 if the contact does not exist' do
     User.should_receive(:exists?).and_return(false)
-    post :create, id: user.id, contact_id: contact.id
+    post :create, id: user.id, contact_username: contact.username
     response.status.should == 404
   end
   
   it 'should return 403 if not authenticated as the requested user' do
-      post :create, id: contact.id, contact_id: user.id
+      post :create, id: contact.id, contact_username: user.username
       response.status.should == 403
   end
 end

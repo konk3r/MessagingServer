@@ -8,7 +8,7 @@ Smessage::Application.routes.draw do
   delete 'user/delete' => 'users#destroy'
   
   get 'user/:id/contacts' => 'contacts#show'
-  post 'user/:id/contact/:contact_id/' => 'contacts#create'
+  post 'user/:id/contact/:contact_username/' => 'contacts#create'
   put 'user/:id/contact/:contact_id/' => 'contacts#update' #accept => true
   delete 'user/:id/contact/:contact_id/' => 'contacts#destroy'
   
