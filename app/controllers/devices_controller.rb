@@ -11,7 +11,7 @@ class DevicesController < ApplicationController
     if (@current_user.device_id == nil)
       render :json => {:status => 'device removed'}
     else
-      render :status => :bad_request :json => {:status => 'failed to remove device'}
+      render :status => :bad_request, :json => {:status => 'failed to remove device'}
     end
   end
 
