@@ -6,6 +6,14 @@ class DevicesController < ApplicationController
     render :json => @current_user
   end
   
+  def show
+    if @current_user.device_id == nil
+      render :json => {error: => "no device_id available"}
+    else
+      render :json => {:device_id => @current_user.device_id}
+    end
+  end
+  
   def destroy
     @current_user.remove_device(params[:device_id])
     if (@current_user.device_id == nil)

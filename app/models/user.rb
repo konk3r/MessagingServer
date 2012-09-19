@@ -47,7 +47,10 @@ class User < ActiveRecord::Base
   end
   
   def remove_device(device_id)
-    self.device_id = nil and self.save if self.device_id == device_id
+    if self.device_id == device_id
+      self.device_id = nil
+      self.save
+    end
   end
   
   def find_relationship(contact)
