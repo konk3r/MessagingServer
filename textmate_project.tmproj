@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>currentDocument</key>
-	<string>spec/models/user_spec.rb</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -13,19 +11,25 @@
 					<key>filename</key>
 					<string>Gemfile</string>
 					<key>lastUsed</key>
-					<date>2012-09-17T00:32:22Z</date>
-				</dict>
-				<dict>
-					<key>filename</key>
-					<string>app/controllers/application_controller.rb</string>
-					<key>lastUsed</key>
-					<date>2012-09-17T00:32:21Z</date>
+					<date>2012-09-19T04:26:34Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>config/routes.rb</string>
 					<key>lastUsed</key>
-					<date>2012-09-16T07:42:46Z</date>
+					<date>2012-09-19T04:59:23Z</date>
+				</dict>
+				<dict>
+					<key>filename</key>
+					<string>app/controllers/application_controller.rb</string>
+					<key>lastUsed</key>
+					<date>2012-09-19T04:59:24Z</date>
+				</dict>
+				<dict>
+					<key>filename</key>
+					<string>config/initializers/gcm_on_rails.rb</string>
+					<key>lastUsed</key>
+					<date>2012-09-19T04:59:24Z</date>
 				</dict>
 			</array>
 			<key>expanded</key>
@@ -39,22 +43,26 @@
 				<dict>
 					<key>filename</key>
 					<string>config/database.yml</string>
+					<key>lastUsed</key>
+					<date>2012-09-19T04:59:25Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>db/migrate/20120910224212_create_users.rb</string>
 					<key>lastUsed</key>
-					<date>2012-09-16T06:55:54Z</date>
+					<date>2012-09-19T04:59:24Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>db/migrate/20120912032046_create_messages.rb</string>
 					<key>lastUsed</key>
-					<date>2012-09-16T00:10:00Z</date>
+					<date>2012-09-19T04:59:24Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>db/migrate/20120914203612_create_relationships.rb</string>
+					<key>lastUsed</key>
+					<date>2012-09-19T04:59:24Z</date>
 				</dict>
 			</array>
 			<key>expanded</key>
@@ -69,25 +77,25 @@
 					<key>filename</key>
 					<string>spec/controllers/contacts_controller_spec.rb</string>
 					<key>lastUsed</key>
-					<date>2012-09-16T07:39:37Z</date>
+					<date>2012-09-19T04:59:25Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>app/controllers/contacts_controller.rb</string>
 					<key>lastUsed</key>
-					<date>2012-09-17T04:13:33Z</date>
+					<date>2012-09-19T04:59:25Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>spec/models/relationship_spec.rb</string>
 					<key>lastUsed</key>
-					<date>2012-09-16T06:55:57Z</date>
+					<date>2012-09-19T01:17:36Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>app/models/relationship.rb</string>
 					<key>lastUsed</key>
-					<date>2012-09-16T06:55:57Z</date>
+					<date>2012-09-19T01:17:36Z</date>
 				</dict>
 			</array>
 			<key>expanded</key>
@@ -99,63 +107,78 @@
 			<key>children</key>
 			<array>
 				<dict>
-					<key>filename</key>
-					<string>spec/controllers/messages_controller_spec.rb</string>
-					<key>lastUsed</key>
-					<date>2012-09-17T04:43:25Z</date>
+					<key>children</key>
+					<array>
+						<dict>
+							<key>filename</key>
+							<string>spec/controllers/messages_controller_spec.rb</string>
+							<key>lastUsed</key>
+							<date>2012-09-19T01:19:30Z</date>
+						</dict>
+						<dict>
+							<key>filename</key>
+							<string>app/controllers/messages_controller.rb</string>
+							<key>lastUsed</key>
+							<date>2012-09-19T01:17:37Z</date>
+						</dict>
+						<dict>
+							<key>filename</key>
+							<string>spec/models/message_spec.rb</string>
+							<key>lastUsed</key>
+							<date>2012-09-19T01:17:38Z</date>
+						</dict>
+						<dict>
+							<key>filename</key>
+							<string>app/models/message.rb</string>
+							<key>lastUsed</key>
+							<date>2012-09-19T01:17:39Z</date>
+						</dict>
+					</array>
+					<key>name</key>
+					<string>Message</string>
 				</dict>
 				<dict>
-					<key>filename</key>
-					<string>app/controllers/messages_controller.rb</string>
-					<key>lastUsed</key>
-					<date>2012-09-17T06:38:04Z</date>
+					<key>children</key>
+					<array>
+						<dict>
+							<key>filename</key>
+							<string>spec/controllers/devices_controller_spec.rb</string>
+							<key>lastUsed</key>
+							<date>2012-09-19T04:59:24Z</date>
+						</dict>
+						<dict>
+							<key>filename</key>
+							<string>app/controllers/devices_controller.rb</string>
+							<key>lastUsed</key>
+							<date>2012-09-19T04:59:25Z</date>
+						</dict>
+					</array>
+					<key>name</key>
+					<string>Device</string>
 				</dict>
-				<dict>
-					<key>filename</key>
-					<string>spec/models/message_spec.rb</string>
-					<key>lastUsed</key>
-					<date>2012-09-17T04:28:12Z</date>
-				</dict>
-				<dict>
-					<key>filename</key>
-					<string>app/models/message.rb</string>
-					<key>lastUsed</key>
-					<date>2012-09-17T06:38:04Z</date>
-				</dict>
-			</array>
-			<key>expanded</key>
-			<true/>
-			<key>name</key>
-			<string>Message</string>
-		</dict>
-		<dict>
-			<key>children</key>
-			<array>
 				<dict>
 					<key>filename</key>
 					<string>spec/controllers/users_controller_spec.rb</string>
 					<key>lastUsed</key>
-					<date>2012-09-17T06:38:00Z</date>
+					<date>2012-09-19T01:58:41Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>app/controllers/users_controller.rb</string>
 					<key>lastUsed</key>
-					<date>2012-09-17T04:35:13Z</date>
+					<date>2012-09-19T02:21:37Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>spec/models/user_spec.rb</string>
 					<key>lastUsed</key>
-					<date>2012-09-17T06:38:15Z</date>
-					<key>selected</key>
-					<true/>
+					<date>2012-09-19T00:56:30Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>app/models/user.rb</string>
 					<key>lastUsed</key>
-					<date>2012-09-17T06:38:15Z</date>
+					<date>2012-09-19T04:59:24Z</date>
 				</dict>
 			</array>
 			<key>expanded</key>
@@ -170,13 +193,13 @@
 					<key>filename</key>
 					<string>spec/controllers/sessions_controller_spec.rb</string>
 					<key>lastUsed</key>
-					<date>2012-09-17T04:03:56Z</date>
+					<date>2012-09-18T19:27:48Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>app/controllers/sessions_controller.rb</string>
 					<key>lastUsed</key>
-					<date>2012-09-17T04:03:57Z</date>
+					<date>2012-09-18T19:27:48Z</date>
 				</dict>
 			</array>
 			<key>expanded</key>
@@ -196,8 +219,6 @@
 					<string>spec/factories/user.rb</string>
 				</dict>
 			</array>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>Factories</string>
 		</dict>
@@ -205,119 +226,10 @@
 	<key>fileHierarchyDrawerWidth</key>
 	<integer>200</integer>
 	<key>metaData</key>
-	<dict>
-		<key>app/controllers/messages_controller.rb</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>37</integer>
-				<key>line</key>
-				<integer>50</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>27</integer>
-		</dict>
-		<key>app/controllers/users_controller.rb</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>60</integer>
-				<key>line</key>
-				<integer>22</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>22</integer>
-		</dict>
-		<key>app/models/message.rb</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>45</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>17</integer>
-		</dict>
-		<key>app/models/user.rb</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>56</integer>
-				<key>line</key>
-				<integer>15</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>spec/controllers/messages_controller_spec.rb</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>7</integer>
-				<key>line</key>
-				<integer>102</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>86</integer>
-		</dict>
-		<key>spec/controllers/users_controller_spec.rb</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>42</integer>
-				<key>line</key>
-				<integer>78</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>3</integer>
-		</dict>
-		<key>spec/models/user_spec.rb</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>16</integer>
-				<key>line</key>
-				<integer>52</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>31</integer>
-		</dict>
-	</dict>
-	<key>openDocuments</key>
-	<array>
-		<string>spec/controllers/users_controller_spec.rb</string>
-		<string>app/models/user.rb</string>
-		<string>spec/models/user_spec.rb</string>
-		<string>app/models/message.rb</string>
-		<string>app/controllers/messages_controller.rb</string>
-		<string>spec/controllers/messages_controller_spec.rb</string>
-		<string>app/controllers/users_controller.rb</string>
-	</array>
+	<dict/>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{290, 235}, {691, 585}}</string>
+	<string>{{217, 108}, {691, 585}}</string>
 </dict>
 </plist>
