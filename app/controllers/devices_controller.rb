@@ -8,7 +8,7 @@ class DevicesController < ApplicationController
   
   def show
     if @current_user.device_id == nil
-      render :json => {error: => "no device_id available"}
+      render :json => {:error => "no device_id available"}
     else
       render :json => {:device_id => @current_user.device_id}
     end
