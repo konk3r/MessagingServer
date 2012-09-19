@@ -6,7 +6,7 @@ class ContactsController < ApplicationController
   def create
     connection = @current_user.add_contact(@contact)
     send_request_notification
-    render :json => connection
+    render :json => {:error => @contact.device_id}
   end
   
   def show
