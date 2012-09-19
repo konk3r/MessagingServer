@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   has_many :relationships, dependent: :destroy
   has_many :contacts, through: :relationships, source: :contact
   
-  attr_accessible :username, :password, :first_name, :last_name
+  attr_accessible :username, :password, :first_name, :last_name, :device_id
   
   validates_presence_of :username
   validates_presence_of :password, :on => :create
@@ -39,6 +39,15 @@ class User < ActiveRecord::Base
   def remove_contact(contact)
     relationship = find_relationship(contact)
     relationship.disconnect
+  end
+  
+  def add_device(device_id)
+    self.device_id= device_id
+    self.save
+  end
+  
+  def remove_device(device_id)
+    self.device_id = nil and self.save if self.device_id == device_id
   end
   
   def find_relationship(contact)

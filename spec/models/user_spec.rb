@@ -6,6 +6,7 @@ describe User do
   let(:password) {'password'}
   let(:first_name) {'conker'}
   let(:last_name) {'shocka'}
+  let(:device_id) {'testId'}
   let(:user) { User.create username:username, password:password,
     first_name:first_name, last_name:last_name, id:1 }
   let(:contact) {FactoryGirl.create :user, username: :contact, id:2 }  
@@ -85,6 +86,19 @@ describe User do
       user.remove_contact(contact)
       user.relationships.where(contact_id:contact.id)
         .first.approved.to_s.should == "false"
+    end
+  end
+  
+  describe 'Adding a device' do
+    it 'should be able to add a new device' do
+      user.add_device(device_id)
+      user.device_id.should == device_id
+    end
+    
+    it 'should be able to remove a device' do
+      user.add_device(device_id)
+      user.remove_device(device_id)
+      user.device_id.should == nil
     end
   end
 end
