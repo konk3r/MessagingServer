@@ -2,7 +2,7 @@ Smessage::Application.routes.draw do
   root :to => 'home#index'
   
   post 'login' => 'sessions#create'
-  delete 'logout' => 'sessions#destroy'
+  delete 'logout/device/:device_id' => 'sessions#destroy'
   
   post 'user/sign_up' => 'users#create'
   delete 'user/delete' => 'users#destroy'

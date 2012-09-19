@@ -13,6 +13,7 @@ class SessionsController < ApplicationController
 
   def destroy
     @current_user.remove_api_key!(params[:api_key])
+    @current_user.remove_device!(params[:device_id])
     render :json => {:success => "user logged out succesfully"}
   end
   

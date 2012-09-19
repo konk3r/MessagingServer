@@ -4,6 +4,7 @@ describe SessionsController do
   
   let(:fake_api_key) { 'this seems wrong' }
   let(:api_key) { 'this is a randomly generated key, I promise' }
+  let(:device_id) { 'device id' }
   let(:user) { FactoryGirl.build :user, :username => 'username', :password => 'password', :api_key => api_key }
   let(:incorrect_password) { 'wrong_password' }
   
@@ -59,13 +60,21 @@ describe SessionsController do
     end
     
     it 'should give a 401 if the api key is not valid' do
-      post :destroy, :user_id => user.id, :api_key => fake_api_key
+      post :destroy, :user_id => user.id, :api_key => fake_api_key,
+        :device_id => device_id
       response.status.should == 401
     end
     
     it 'should delete the api key from the user' do
       user.should_receive(:remove_api_key!)
-      post :destroy, :user_id => user.id, :api_key => user.api_key
+      post :destroy, :user_id => user.id, :api_key => user.api_key,
+        :device_id => device_id
+    end
+    
+    it 'should remove the device id from the user' do
+      user.should_receive(:remove_device!).with(device_id)
+      post :destroy, :user_id => user.id, :api_key => user.api_key,
+        :device_id => device_id
     end
   end
 end
