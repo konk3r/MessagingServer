@@ -14,6 +14,7 @@ Smessage::Application.routes.draw do
   
   post 'user/:id/device/:device_id/' => 'devices#create'
   delete 'user/:id/device/:device_id/' => 'devices#destroy'
+  delete 'user/:id/device/' => 'devices#show'
   
   post 'user/:id/contact/:contact_id/message' => 'messages#create'
   get 'user/:id/contact/:contact_id/messages/' => 'messages#show'
