@@ -11,7 +11,7 @@ gem 'thin'
 gem 'haml'
 gem 'sass'
 gem 'bcrypt-ruby'
-gem 'gcm_on_rails', :path => 'gems/gcm_on_rails'
+gem 'gcm_on_rails', :git => 'https://github.com/dondeng/gcm_on_rails.git'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'

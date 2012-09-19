@@ -1,5 +1,6 @@
-PATH
-  remote: gems/gcm_on_rails
+GIT
+  remote: https://github.com/dondeng/gcm_on_rails.git
+  revision: e00ff3a71bc5eadf8598c74693b50e617a02ea0b
   specs:
     gcm_on_rails (0.1.2)
       configatron
