@@ -23,6 +23,7 @@ describe DevicesController do
     it 'should request the user remove a device' do
       user.should_receive(:remove_device).with(device_id);
       delete :destroy, id:user.id, device_id:device_id
+      user.device_id.should == nil
     end
 
   end
