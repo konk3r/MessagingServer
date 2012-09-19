@@ -4,9 +4,11 @@ describe MessagesController do
   let(:user_id) { 1 }
   let(:contact_id) { 2 }
   let(:non_user_id) { 3 }
+  let(:fake_api_key) { 'this seems wrong' }
+  let(:api_key) { 'this is a randomly generated key, I promise' }
   let(:time) { Time.zone.now }
   let(:text) { 'Message text' }
-  let(:user) { FactoryGirl.build(:user, :id => user_id) }
+  let(:user) { FactoryGirl.build(:user, id:user_id, api_key:api_key) }
   let(:message) { FactoryGirl.build(:message) }
   let(:params) { {"sent_at" => time, "text" => text} }
   let(:contact) { 
@@ -16,16 +18,18 @@ describe MessagesController do
     
     describe 'checking authentication' do
         it 'should fail with a 401 if user is not authenticated' do
-          User.should_receive(:find_by_id).and_return(nil)
+          User.should_receive(:find_by_id).and_return(user)
           post :create, id: user.id, contact_id: contact_id,
-            message_json: params.to_json
+            message_json: params.to_json, :user_id => user.id,
+            :api_key => fake_api_key
           response.status.should == 401
         end
         
         it 'should fail with a 403 if authentication is not for sending user' do
-          User.should_receive(:find_by_id).with(nil).and_return(user)
+          User.should_receive(:find_by_id).and_return(user)
           post :create, id: non_user_id, contact_id: contact_id,
-            message_json: params.to_json
+            message_json: params.to_json, :user_id => user.id,
+            :api_key => user.api_key
           response.status.should == 403
         end
     end
@@ -33,7 +37,7 @@ describe MessagesController do
     
     describe 'response' do
       before :each do
-        User.should_receive(:find_by_id).with(nil).and_return(user)
+        User.should_receive(:find_by_id).and_return(user)
         User.should_receive(:find_by_id).with(contact.id.to_s).and_return(user)
       end
       
@@ -43,7 +47,8 @@ describe MessagesController do
           user.should_receive(:contacts_with).and_return true
         
           post :create, id: user.id, contact_id: contact.id,
-            message_json: params.to_json
+            message_json: params.to_json, :user_id => user.id,
+            :api_key => user.api_key
           @body = JSON.parse(response.body)
         end
       
@@ -82,7 +87,8 @@ describe MessagesController do
         user.should_receive(:contacts_with).and_return true
         
         post :create, id: user.id, contact_id: contact_id,
-          message_json: params.to_json
+          message_json: params.to_json, :user_id => user.id,
+          :api_key => user.api_key
         response.status.should == 400
       end
       
@@ -90,7 +96,8 @@ describe MessagesController do
         User.should_receive(:exists?).at_least(1).times.and_return true
         
         post :create, id: user.id, contact_id: contact_id,
-          message_json: params.to_json
+          message_json: params.to_json, :user_id => user.id,
+          :api_key => user.api_key
         response.status.should == 403
       end
     end
@@ -103,7 +110,8 @@ describe MessagesController do
     end
     
     it 'should fail with a 401 if user is not authenticated' do
-      get :show, :id => user_id, :contact_id => contact_id
+      get :show, :id => user_id, :contact_id => contact_id, :user_id => user.id,
+        :api_key => user.api_key
       response.status.should == 401
     end
     
@@ -115,7 +123,8 @@ describe MessagesController do
       it 'should return a 200 and the messages as valid json' do
         User.should_receive(:find_by_id).and_return(contact)
         User.should_receive(:exists?).at_least(1).times.and_return(true)
-        get :show, :id => user_id, :contact_id => contact_id
+        get :show, :id => user_id, :contact_id => contact_id, :user_id => user.id,
+          :api_key => user.api_key
         
         JSON.parse(response.body).should_not == nil
         response.status.should == 200
@@ -123,7 +132,8 @@ describe MessagesController do
     
       it 'should return a 404 if the secondary user does not exist' do
         User.should_receive(:exists?).with(contact_id.to_s).and_return(false)
-        get :show, :id => user_id, :contact_id => contact_id
+        get :show, :id => user_id, :contact_id => contact_id, :user_id => user.id,
+          :api_key => user.api_key
       
         response.status.should == 404
       end

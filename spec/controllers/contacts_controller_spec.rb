@@ -1,12 +1,14 @@
 require 'spec_helper'
 
 describe ContactsController do
-  let(:user) { FactoryGirl.build :user, username: :user, id:1}
+  let(:api_key) { 'this is a randomly generated key, I promise' }
+  let(:user) { FactoryGirl.build :user, username: :user, id:1, api_key:api_key}
+  let(:device_id) {'APA91bGEwprdPe-vGbhHEbkm1i9PfzC9DG71DpSXX8OdzVmbR0jNjaVprhaGoCRJUO-Tk9UBHFWN-y-P4RQaMVd0v-YQcAMtJ2xlldCDAYnywXgSmI1wwgrY_Mlct95TA7dihHJKth5NsNiIMuAq1m1SQHGa2xhg_nkUSHyn-TIIXMoyz3OwEss'}
   let(:contact) { FactoryGirl.build :user, username: :contact, id:2,
-    :device_id => 'APA91bGEwprdPe-vGbhHEbkm1i9PfzC9DG71DpSXX8OdzVmbR0jNjaVprhaGoCRJUO-Tk9UBHFWN-y-P4RQaMVd0v-YQcAMtJ2xlldCDAYnywXgSmI1wwgrY_Mlct95TA7dihHJKth5NsNiIMuAq1m1SQHGa2xhg_nkUSHyn-TIIXMoyz3OwEss'}
+    device_id:device_id}
   
   before :each do
-    User.should_receive(:find_by_id).with(nil).and_return(user)
+    User.should_receive(:find_by_id).with(user.id.to_s).and_return(user)
   end
   
   describe 'when properly authenticated' do
@@ -15,7 +17,7 @@ describe ContactsController do
     end
     
     it 'should return 200 and a list of all valid and pending contacts' do
-      get :show, id: user.id
+      get :show, id: user.id, :user_id => user.id, :api_key => user.api_key
       contacts = JSON.parse response.body
       
       contacts.should_not == nil
@@ -27,14 +29,16 @@ describe ContactsController do
       it 'should create a contact request' do
         User.should_receive(:find_by_username).with(contact.username.to_s)
           .at_least(1).times.and_return(contact)
-        post :create, id: user.id, contact_username: contact.username
+        post :create, id: user.id, contact_username: contact.username,
+          :user_id => user.id, :api_key => user.api_key
         response.status.should == 200
       end
       
       it 'should sent the request to the user' do
         User.should_receive(:find_by_username).with(contact.username.to_s)
           .at_least(1).times.and_return(contact)
-        post :create, id: user.id, contact_username: contact.username
+        post :create, id: user.id, contact_username: contact.username,
+            :user_id => user.id, :api_key => user.api_key
         
       end
   
@@ -42,7 +46,8 @@ describe ContactsController do
         User.should_receive(:find_by_id).with(contact.id.to_s)
           .at_least(1).times.and_return(contact)
         contact.add_contact(user)
-        put :update, id: user.id, contact_id: contact.id, accept:true
+        put :update, id: user.id, contact_id: contact.id, accept:true,
+            :user_id => user.id, :api_key => user.api_key
         response.status.should == 200
       end
   
@@ -50,7 +55,8 @@ describe ContactsController do
         User.should_receive(:find_by_id).with(contact.id.to_s)
           .at_least(1).times.and_return(contact)
         user.add_contact(contact)
-        put :update, id: user.id, contact_id: contact.id, accept:true
+        put :update, id: user.id, contact_id: contact.id, accept:true,
+            :user_id => user.id, :api_key => user.api_key
         response.status.should == 403
       end
   
@@ -58,19 +64,22 @@ describe ContactsController do
         User.should_receive(:find_by_id).with(contact.id.to_s)
           .at_least(1).times.and_return(contact)
         user.add_contact(contact)
-        delete :destroy, id: user.id, contact_id: contact.id
+        delete :destroy, id: user.id, contact_id: contact.id,
+            :user_id => user.id, :api_key => user.api_key
         response.status.should == 200
       end
     end
   end
   
   it 'should return 404 if the contact does not exist' do
-    post :create, id: user.id, contact_username: contact.username
+    post :create, id: user.id, contact_username: contact.username,
+        :user_id => user.id, :api_key => user.api_key
     response.status.should == 404
   end
   
   it 'should return 403 if not authenticated as the requested user' do
-      post :create, id: contact.id, contact_username: user.username
+      post :create, id: contact.id, contact_username: user.username,
+          :user_id => user.id, :api_key => user.api_key
       response.status.should == 403
   end
 end

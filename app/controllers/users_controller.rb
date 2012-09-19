@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   end
   
   def destroy
-    if params[:username] != @current_user.username
+    if params[:id] != @current_user.id.to_s
       return render :status => :forbidden,
        :json => {:error => "Must be signed in as user to delete it"}
     end

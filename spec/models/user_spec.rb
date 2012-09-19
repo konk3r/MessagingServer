@@ -45,6 +45,27 @@ describe User do
     end
     
   end
+  
+  describe 'Api key' do
+    it 'should create a new api key' do
+      user.generate_api_key!
+      user.api_key.should_not == nil
+    end
+    
+    it 'should remove an existing api key' do
+      api_key = user.generate_api_key!
+      user.remove_api_key! api_key
+      user.api_key.should == nil
+    end
+    
+    it 'should be able to generate json including an api key' do
+      user_with_api = user.with_api_key.to_json
+      user_with_api.should include "name"
+      user_with_api.should include "username"
+      user_with_api.should include "id"
+      user_with_api.should include "api_key"
+    end
+  end
 
   describe 'Generating JSON' do
     it 'should create JSON with limited fields for mobile requests' do
@@ -91,13 +112,13 @@ describe User do
   
   describe 'Adding a device' do
     it 'should be able to add a new device' do
-      user.add_device(device_id)
+      user.add_device!(device_id)
       user.device_id.should == device_id
     end
     
     it 'should be able to remove a device' do
-      user.add_device(device_id)
-      user.remove_device(device_id)
+      user.add_device!(device_id)
+      user.remove_device!(device_id)
       user.device_id.should == nil
     end
   end

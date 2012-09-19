@@ -4,7 +4,10 @@ class ApplicationController < ActionController::Base
   private 
   
   def set_current_user
-    @current_user ||= User.find_by_id(session[:user_id])
+    user = User.find_by_id(params[:user_id])
+    if user && user.api_key != nil && user.api_key == params[:api_key]
+      @current_user = user
+    end
   end
   
   def authenticate_user

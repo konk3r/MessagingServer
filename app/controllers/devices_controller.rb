@@ -16,11 +16,7 @@ class DevicesController < ApplicationController
   
   def destroy
     @current_user.remove_device(params[:device_id])
-    if (@current_user.device_id == nil)
-      render :json => {:status => 'device removed'}
-    else
-      render :status => :bad_request, :json => {:status => 'failed to remove device'}
-    end
+    render :json => {:status => 'device removed'}
   end
 
 end
