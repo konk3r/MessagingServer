@@ -1,6 +1,5 @@
 class MessagesController < ApplicationController
   before_filter :authenticate_user
-  before_filter :authorize_user
   before_filter :verify_contact, :only => [:create, :show]
   
   def create
@@ -25,13 +24,6 @@ class MessagesController < ApplicationController
   
   def destroy
   end
-
-  def authorize_user
-    if @current_user.id.to_s != params[:id]
-      return render :status => :forbidden, :json => {:error =>
-        'Must be signed in as user to make request from it'}
-    end
-  end
   
   def verify_contact
     if !User.exists?(params[:contact_id])
@@ -46,7 +38,7 @@ class MessagesController < ApplicationController
   end
   
   def build_request_parameters
-    sender_id = {sender_id: params[:id], receiver_id: params[:contact_id]}
+    sender_id = {sender_id: params[:user_id], receiver_id: params[:contact_id]}
     @message_params = JSON.parse(params[:message_json])
     @message_params.merge!(sender_id)
   end

@@ -1,6 +1,5 @@
 class ContactsController < ApplicationController
   before_filter :authenticate_user
-  before_filter :authorize_user
   before_filter :verify_contact, :only => [:create, :update, :destroy]
   
   def create
@@ -10,7 +9,6 @@ class ContactsController < ApplicationController
   end
   
   def show
-    contacts = []
     render :json => @current_user.relationships.where("approved <> ?", "false")
   end
 
@@ -31,13 +29,6 @@ class ContactsController < ApplicationController
   end
   
   protected
-  
-  def authorize_user
-    if @current_user.id.to_s != params[:id]
-      return render :status => :forbidden, :json => {:error =>
-        'Must be signed in as user to make request from it'}
-    end
-  end
   
   def verify_contact
     load_contact

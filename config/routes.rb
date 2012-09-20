@@ -7,16 +7,16 @@ Smessage::Application.routes.draw do
   post 'user/sign_up' => 'users#create'
   delete 'user/delete' => 'users#destroy'
   
-  get 'user/:id/contacts' => 'contacts#show'
-  post 'user/:id/contact/:contact_username/' => 'contacts#create'
-  put 'user/:id/contact/:contact_id/' => 'contacts#update'
-  delete 'user/:id/contact/:contact_id/' => 'contacts#destroy'
+  get 'user/contacts' => 'contacts#show'
+  post 'user/contact/:contact_username/' => 'contacts#create'
+  put 'user/contact/:contact_id/' => 'contacts#update'
+  delete 'user/contact/:contact_id/' => 'contacts#destroy'
   
-  post 'user/:id/device/:device_id/' => 'devices#create'
-  delete 'user/:id/device/:device_id/' => 'devices#destroy'
+  post 'user/device/:device_id/' => 'devices#create'
+  delete 'user/device/:device_id/' => 'devices#destroy'
   
-  post 'user/:id/contact/:contact_id/message' => 'messages#create'
-  get 'user/:id/contact/:contact_id/messages/' => 'messages#show'
+  post 'user/contact/:contact_id/message' => 'messages#create'
+  get 'user/contact/:contact_id/messages/' => 'messages#show'
   
 
   # The priority is based upon order of creation:

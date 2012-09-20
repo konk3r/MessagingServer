@@ -16,7 +16,7 @@ describe DevicesController do
   describe 'Creating a device' do
     it 'should request the user add a device' do
       user.should_receive(:add_device!).with(device_id);
-      post :create, id:user.id, device_id:device_id, :user_id => user.id,
+      post :create, device_id:device_id, :user_id => user.id,
         :api_key => user.api_key
     end
 
@@ -25,7 +25,7 @@ describe DevicesController do
   describe 'Destroying device' do
     it 'should request the user remove a device' do
       user.should_receive(:remove_device!).with(device_id);
-      delete :destroy, id:user.id, device_id:device_id, :user_id => user.id,
+      delete :destroy, device_id:device_id, :user_id => user.id,
         :api_key => user.api_key
       user.device_id.should == nil
     end
