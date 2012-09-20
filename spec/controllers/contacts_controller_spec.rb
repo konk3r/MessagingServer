@@ -6,6 +6,8 @@ describe ContactsController do
   let(:device_id) {'APA91bGEwprdPe-vGbhHEbkm1i9PfzC9DG71DpSXX8OdzVmbR0jNjaVprhaGoCRJUO-Tk9UBHFWN-y-P4RQaMVd0v-YQcAMtJ2xlldCDAYnywXgSmI1wwgrY_Mlct95TA7dihHJKth5NsNiIMuAq1m1SQHGa2xhg_nkUSHyn-TIIXMoyz3OwEss'}
   let(:contact) { FactoryGirl.build :user, username: :contact, id:2,
     device_id:device_id}
+  let(:otro_contact) { FactoryGirl.build :user, username: :antonio, id:3,
+    device_id:device_id}
   
   before :each do
     User.should_receive(:find_by_id).with(user.id.to_s).and_return(user)
@@ -22,6 +24,28 @@ describe ContactsController do
       
       contacts.should_not == nil
       response.status.should == 200
+    end
+    
+    it 'The json returned should contain the approval status of the contacts' do
+      user.save
+      contact.save
+      otro_contact.save
+      contact.add_contact(user)
+      user.add_contact(otro_contact)
+      get :show, id: user.id, :user_id => user.id, :api_key => user.api_key
+      contacts = JSON.parse response.body
+      contacts.first.should include "approved"
+    end
+    
+    it 'should not return removed contacts' do
+      user.save
+      contact.save
+      contact.add_contact(user)
+      user.remove_contact(contact)
+      get :show, id: user.id, :user_id => user.id, :api_key => user.api_key
+      contacts = JSON.parse response.body
+      contacts.size.should == 0
+      
     end
     
     describe 'Requests with specific contacts' do
@@ -45,6 +69,8 @@ describe ContactsController do
       it 'should accept contact request' do
         User.should_receive(:find_by_id).with(contact.id.to_s)
           .at_least(1).times.and_return(contact)
+        contact.save
+        user.save
         contact.add_contact(user)
         put :update, id: user.id, contact_id: contact.id, accept:true,
             :user_id => user.id, :api_key => user.api_key
@@ -63,6 +89,7 @@ describe ContactsController do
       it 'should delete contacts' do
         User.should_receive(:find_by_id).with(contact.id.to_s)
           .at_least(1).times.and_return(contact)
+        contact.save
         user.add_contact(contact)
         delete :destroy, id: user.id, contact_id: contact.id,
             :user_id => user.id, :api_key => user.api_key

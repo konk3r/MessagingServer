@@ -48,7 +48,15 @@ class Relationship < ActiveRecord::Base
   end
   
   def as_json(params = nil)
-    super(:only => [:contact_id, :approved])
+    super(:only => [:contact_id, :approved], :methods => ["username", "name"])
+  end
+  
+  def username
+    self.contact.username
+  end
+  
+  def name
+    self.contact.name
   end
   
   class UnauthorizedError < Error

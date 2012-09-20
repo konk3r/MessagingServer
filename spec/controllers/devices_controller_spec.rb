@@ -21,13 +21,6 @@ describe DevicesController do
     end
 
   end
-  
-  describe 'Showing device' do
-    it 'should list the devices for the user' do
-      get :show, id:user.id, :user_id => user.id,
-        :api_key => user.api_key
-    end
-  end
 
   describe 'Destroying device' do
     it 'should request the user remove a device' do

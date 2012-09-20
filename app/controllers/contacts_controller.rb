@@ -10,7 +10,8 @@ class ContactsController < ApplicationController
   end
   
   def show
-    render :json => @current_user.contacts
+    contacts = []
+    render :json => @current_user.relationships.where("approved <> ?", "false")
   end
 
   def update
@@ -29,6 +30,8 @@ class ContactsController < ApplicationController
     render :json => removed_connection
   end
   
+  protected
+  
   def authorize_user
     if @current_user.id.to_s != params[:id]
       return render :status => :forbidden, :json => {:error =>
@@ -43,7 +46,7 @@ class ContactsController < ApplicationController
         :json => {:error => "Contact not found"} and return
     end
   end
-  
+
   def load_contact
     if params[:contact_id]
       @contact = User.find_by_id(params[:contact_id])
