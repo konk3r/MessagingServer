@@ -3,7 +3,7 @@ require 'spec_helper'
 describe ContactsController do
   let(:api_key) { 'this is a randomly generated key, I promise' }
   let(:user) { FactoryGirl.build :user, username: :user, id:1, api_key:api_key}
-  let(:device_id) {'APA91bGEwprdPe-vGbhHEbkm1i9PfzC9DG71DpSXX8OdzVmbR0jNjaVprhaGoCRJUO-Tk9UBHFWN-y-P4RQaMVd0v-YQcAMtJ2xlldCDAYnywXgSmI1wwgrY_Mlct95TA7dihHJKth5NsNiIMuAq1m1SQHGa2xhg_nkUSHyn-TIIXMoyz3OwEss'}
+  let(:device_id) {'APA91bGX8xFj5OxWUJYIqqngMIqLE9r9d_DsQNSm38WtMmcZD6-wbjFfoEy-eOc_PeeXmcPdxIA_SwSuJ91hLR02Rasg9xuwmBc_FW8BGvvdC2v2kYoB9UXusuMFHQvJKiTXinyGYJkrK56H37R4N6HnmghbOV6SawrPPqMFwaAYvaFEMJ-bFNY'}
   let(:contact) { FactoryGirl.build :user, username: :contact, id:2,
     device_id:device_id}
   let(:otro_contact) { FactoryGirl.build :user, username: :antonio, id:3,

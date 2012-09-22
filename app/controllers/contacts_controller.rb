@@ -49,17 +49,20 @@ class ContactsController < ApplicationController
   def send_request_notification
     return if @contact.device_id == nil
     
+    message = {:message => "New contact request from #{@current_user.username}"}
+    type = {:type => :contact_request}
+    message_text = message.merge(type)
+    
     device = Gcm::Device.find_by_registration_id(@contact.device_id)
     if !device
-      device = Gcm::Device.create(:registration_id => @contact.device_id)
+      device = Gcm::Device.new(:registration_id => @contact.device_id)
     end
     notification = Gcm::Notification.new
     notification.device = device
     notification.collapse_key = "updates_available"
     notification.delay_while_idle = false
     notification.data = {:registration_ids => [@contact.device_id], :data => 
-      {:message_text => "User #{@current_user.username} has sent you a contact request"}}
-    notification.save
+      {:message_text => message_text.to_json}}
     
     ApplicationHelper::send_notification(notification)
   end
