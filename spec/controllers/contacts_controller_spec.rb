@@ -52,13 +52,22 @@ describe ContactsController do
         user.save
         contact.save
       end
+
+      it 'should return 409 conflict if already connected' do
+        user.add_contact(contact)
+        
+        User.should_receive(:find_by_username).with(contact.username.to_s)
+          .at_least(1).times.and_return(contact)
+        post :create, contact_username: contact.username,
+          :user_id => user.id, :api_key => user.api_key
+        response.status.should == 409
+      end
     
       it 'should create a contact request' do
         User.should_receive(:find_by_username).with(contact.username.to_s)
           .at_least(1).times.and_return(contact)
         post :create, contact_username: contact.username,
           :user_id => user.id, :api_key => user.api_key
-        debugger
         response.status.should == 200
       end
       

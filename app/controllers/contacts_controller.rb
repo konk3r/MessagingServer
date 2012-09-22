@@ -3,7 +3,11 @@ class ContactsController < ApplicationController
   before_filter :verify_contact, :only => [:create, :update, :destroy]
   
   def create
-    connection = @current_user.add_contact(@contact)
+    begin
+      connection = @current_user.add_contact(@contact)
+    rescue ActiveRecord::RecordNotUnique
+      return render :status => 409, :json => {:error => "Users are already connected"}
+    end
     send_request_notification
     render :json => connection
   end
