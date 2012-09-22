@@ -13,7 +13,7 @@ class ContactsController < ApplicationController
   end
 
   def update
-    if params[:accept] && params[:accept] == true
+    if params[:accept] && params[:accept] == "true"
       begin
         contact = @current_user.accept_contact(@contact)
         render :json => contact

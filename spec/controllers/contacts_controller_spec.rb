@@ -72,7 +72,7 @@ describe ContactsController do
         contact.save
         user.save
         contact.add_contact(user)
-        put :update, contact_id: contact.id, accept:true,
+        put :update, contact_id: contact.id, accept:"true",
             :user_id => user.id, :api_key => user.api_key
         response.status.should == 200
       end
@@ -81,7 +81,7 @@ describe ContactsController do
         User.should_receive(:find_by_id).with(contact.id.to_s)
           .at_least(1).times.and_return(contact)
         user.add_contact(contact)
-        put :update, contact_id: contact.id, accept:true,
+        put :update, contact_id: contact.id, accept:"true",
             :user_id => user.id, :api_key => user.api_key
         response.status.should == 403
       end
