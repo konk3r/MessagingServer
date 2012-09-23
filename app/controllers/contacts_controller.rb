@@ -8,7 +8,7 @@ class ContactsController < ApplicationController
     rescue ActiveRecord::RecordNotUnique
       return render :status => 409, :json => {:error => "Users are already connected"}
     end
-    send_request_notification
+    send_notification contact_request, :contact_request
     render :json => connection
   end
   
@@ -20,6 +20,7 @@ class ContactsController < ApplicationController
     if params[:accept] && params[:accept] == "true"
       begin
         contact = @current_user.accept_contact(@contact)
+        send_notification contact_accepted, :contact_accepted
         render :json => contact
       rescue Relationship::UnauthorizedError => error
         render status: :forbidden, :json => {:error => error.message}
@@ -50,12 +51,8 @@ class ContactsController < ApplicationController
     end
   end
   
-  def send_request_notification
+  def send_notification(message_text, collapse_key = :standard)
     return if @contact.device_id == nil
-    
-    message = {:message => "New contact request from #{@current_user.username}"}
-    type = {:type => :contact_request}
-    message_text = message.merge(type)
     
     device = Gcm::Device.find_by_registration_id(@contact.device_id)
     if !device
@@ -63,11 +60,26 @@ class ContactsController < ApplicationController
     end
     notification = Gcm::Notification.new
     notification.device = device
-    notification.collapse_key = "updates_available"
+    notification.collapse_key = collapse_key
     notification.delay_while_idle = false
     notification.data = {:registration_ids => [@contact.device_id], :data => 
       {:message_text => message_text.to_json}}
     
     ApplicationHelper::send_notification(notification)
   end
+  
+  def contact_request
+    message = {:content =>
+      {:username => @current_user.username,:name => @current_user.name}}
+    type = {:type => :contact_request}
+    return message.merge(type)
+  end
+  
+  def contact_accepted
+    message = {:content =>
+      {:username => @current_user.username,:name => @current_user.name}}
+    type = {:type => :contact_accepted}
+    return message.merge(type)
+  end
+  
 end

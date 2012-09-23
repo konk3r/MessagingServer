@@ -3,7 +3,7 @@ require 'spec_helper'
 describe ContactsController do
   let(:api_key) { 'this is a randomly generated key, I promise' }
   let(:user) { FactoryGirl.build :user, username: :user, id:1, api_key:api_key}
-  let(:device_id) {'APA91bGX8xFj5OxWUJYIqqngMIqLE9r9d_DsQNSm38WtMmcZD6-wbjFfoEy-eOc_PeeXmcPdxIA_SwSuJ91hLR02Rasg9xuwmBc_FW8BGvvdC2v2kYoB9UXusuMFHQvJKiTXinyGYJkrK56H37R4N6HnmghbOV6SawrPPqMFwaAYvaFEMJ-bFNY'}
+  let(:device_id) {'APA91bGF5yuz_s2o2NzXS01iBvxC0nprWlVoMDCTZXdvVd46SOKrZtXZYIm_-CwBnWG_I5B6JNJcHUDacT3tmU5_btn_ahZpGFxgSlo-VZIJyh0nsn2rZi2qGadposIkIhJBVJOZs-HaLRZa5la4UJSbX56HXOAT4Dri4EGSgmBDil1GpYoLBU8'}
   let(:contact) { FactoryGirl.build :user, username: :contact, id:2,
     device_id:device_id}
   let(:otro_contact) { FactoryGirl.build :user, username: :antonio, id:3,
@@ -74,6 +74,7 @@ describe ContactsController do
       it 'should send the request to the user' do
         User.should_receive(:find_by_username).with(contact.username.to_s)
           .at_least(1).times.and_return(contact)
+        ApplicationHelper.should_receive(:send_notification)
         post :create, contact_username: contact.username,
             :user_id => user.id, :api_key => user.api_key
       end
@@ -87,6 +88,17 @@ describe ContactsController do
         put :update, contact_id: contact.id, accept:"true",
             :user_id => user.id, :api_key => user.api_key
         response.status.should == 200
+      end
+      
+      it 'should send a notification to inform users that a request was accepted' do
+        User.should_receive(:find_by_id).with(contact.id.to_s)
+          .at_least(1).times.and_return(contact)
+        contact.save
+        user.save
+        contact.add_contact(user)
+        ApplicationHelper.should_receive(:send_notification)
+        put :update, contact_id: contact.id, accept:"true",
+          :user_id => user.id, :api_key => user.api_key
       end
   
       it 'should return error if the wrong user accepts contact request' do
