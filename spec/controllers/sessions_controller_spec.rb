@@ -29,6 +29,12 @@ describe SessionsController do
           response.body.should include "api_key"
         end
         
+        it 'should return a date' do
+          user.should_receive(:generate_api_key!)
+          post :create, {:username => user.username, :password => user.password}
+          response.body.should include "last_update"
+        end
+        
         it 'should set api key in user' do
           user.should_receive(:generate_api_key!)
           post :create, {:username => user.username, :password => user.password}

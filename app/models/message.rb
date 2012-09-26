@@ -2,7 +2,7 @@ class Message < ActiveRecord::Base
   belongs_to :user_from, :class_name => "User", :foreign_key => "receiver_id"
   belongs_to :user_to, :class_name => "User", :foreign_key => "sender_id"
   attr_accessible :sent_at, :received_at, :text, :deleted,
-    :sender_id, :receiver_id
+    :sender_id, :receiver_id, :private, :type
   
   validates_presence_of :sender_id
   validates_presence_of :receiver_id
@@ -31,6 +31,7 @@ class Message < ActiveRecord::Base
     @params = params
     convert_param_keys_to_symbols
     filter_params
+    @params.merge!(:type => :text)
     message = Message.create(@params)
   end
   
@@ -43,5 +44,10 @@ class Message < ActiveRecord::Base
   def self.filter_params
     allowed_params = [:sender_id, :receiver_id, :sent_at, :text]
     @params.select! { |k, v| allowed_params.include? k }
+  end
+  
+  def as_json(params = nil)
+    super.as_json(:only => 
+      ["deleted", "id", "private", "receiver_id", "sender_id", "text", "sent_at"])
   end
 end

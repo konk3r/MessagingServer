@@ -11,14 +11,14 @@ class User < ActiveRecord::Base
   validates_presence_of :username
   validates_presence_of :password, :on => :create
   validates_uniqueness_of :username
-  
+    
   def as_json(params = nil)
     super(:only => [:username, :id], :methods => "name")
   end
   
-  def with_api_key
+  def with_session_details
     members = {:username => self.username, :name => self.name, :id => self.id, 
-      :api_key => self.api_key}
+      :api_key => self.api_key, :last_update => Time.zone.now}
   end
   
   def name
@@ -75,8 +75,8 @@ class User < ActiveRecord::Base
   
   protected
 
-    def secure_digest(*args)
-      Digest::SHA1.hexdigest(args.flatten.join('--'))
-    end
+  def secure_digest(*args)
+    Digest::SHA1.hexdigest(args.flatten.join('--'))
+  end
     
 end

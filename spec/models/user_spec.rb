@@ -58,12 +58,13 @@ describe User do
       user.api_key.should == nil
     end
     
-    it 'should be able to generate json including an api key' do
-      user_with_api = user.with_api_key.to_json
-      user_with_api.should include "name"
-      user_with_api.should include "username"
-      user_with_api.should include "id"
-      user_with_api.should include "api_key"
+    it 'should be able to generate json with parameters required to instantiate a new session' do
+      user_with_details = user.with_session_details.to_json
+      user_with_details.should include "name"
+      user_with_details.should include "username"
+      user_with_details.should include "id"
+      user_with_details.should include "api_key"
+      user_with_details.should include "last_update"
     end
   end
 

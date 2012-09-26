@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
     user = User.find_by_username(params[:username])
     if user && user.authenticate(params[:password])
       user.generate_api_key!
-      render :status => :ok, :json => user.with_api_key
+      render :status => :ok, :json => user.with_session_details
     else
       render :status => :unauthorized, :json => {:error => "user not logged in"}
     end

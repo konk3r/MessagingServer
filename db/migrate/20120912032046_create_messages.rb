@@ -5,6 +5,9 @@ class CreateMessages < ActiveRecord::Migration
       t.datetime :received_at
       t.string :text
       t.boolean :deleted
+      t.boolean :private
+      t.string :type
+      t.string :media_uri
       t.references :sender
       t.references :receiver
       

@@ -40,6 +40,9 @@ ActiveRecord::Schema.define(:version => 20120918200543) do
     t.datetime "received_at"
     t.string   "text"
     t.boolean  "deleted"
+    t.boolean  "private"
+    t.string   "type"
+    t.string   "media_uri"
     t.integer  "sender_id"
     t.integer  "receiver_id"
     t.datetime "created_at",  :null => false
@@ -53,6 +56,7 @@ ActiveRecord::Schema.define(:version => 20120918200543) do
     t.integer  "user_id"
     t.integer  "contact_id"
     t.integer  "partner_id"
+    t.boolean  "private"
     t.string   "approved"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false

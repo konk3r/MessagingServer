@@ -4,6 +4,7 @@ class CreateRelationships < ActiveRecord::Migration
       t.integer :user_id
       t.integer :contact_id
       t.integer :partner_id
+      t.boolean :private
       t.string :approved
 
       t.timestamps

@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>app/controllers/contacts_controller.rb</string>
+	<string>app/controllers/updates_controller.rb</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -19,7 +19,7 @@
 					<key>filename</key>
 					<string>config/routes.rb</string>
 					<key>lastUsed</key>
-					<date>2012-09-22T04:24:54Z</date>
+					<date>2012-09-25T04:58:14Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
@@ -86,13 +86,13 @@
 					<key>filename</key>
 					<string>app/helpers/application_helper.rb</string>
 					<key>lastUsed</key>
-					<date>2012-09-20T18:56:05Z</date>
+					<date>2012-09-25T02:30:27Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>app/controllers/application_controller.rb</string>
 					<key>lastUsed</key>
-					<date>2012-09-20T18:56:04Z</date>
+					<date>2012-09-25T02:34:29Z</date>
 				</dict>
 				<dict>
 					<key>children</key>
@@ -102,17 +102,38 @@
 							<array>
 								<dict>
 									<key>filename</key>
+									<string>app/controllers/updates_controller.rb</string>
+									<key>lastUsed</key>
+									<date>2012-09-25T04:58:14Z</date>
+									<key>selected</key>
+									<true/>
+								</dict>
+								<dict>
+									<key>filename</key>
+									<string>spec/controllers/updates_controller_spec.rb</string>
+									<key>lastUsed</key>
+									<date>2012-09-25T04:58:12Z</date>
+								</dict>
+							</array>
+							<key>expanded</key>
+							<true/>
+							<key>name</key>
+							<string>Updates</string>
+						</dict>
+						<dict>
+							<key>children</key>
+							<array>
+								<dict>
+									<key>filename</key>
 									<string>spec/controllers/contacts_controller_spec.rb</string>
 									<key>lastUsed</key>
-									<date>2012-09-22T18:01:10Z</date>
+									<date>2012-09-25T02:34:49Z</date>
 								</dict>
 								<dict>
 									<key>filename</key>
 									<string>app/controllers/contacts_controller.rb</string>
 									<key>lastUsed</key>
-									<date>2012-09-22T18:01:10Z</date>
-									<key>selected</key>
-									<true/>
+									<date>2012-09-23T07:15:14Z</date>
 								</dict>
 								<dict>
 									<key>filename</key>
@@ -124,7 +145,7 @@
 									<key>filename</key>
 									<string>app/models/relationship.rb</string>
 									<key>lastUsed</key>
-									<date>2012-09-22T04:24:53Z</date>
+									<date>2012-09-25T02:17:56Z</date>
 								</dict>
 							</array>
 							<key>expanded</key>
@@ -139,13 +160,13 @@
 									<key>filename</key>
 									<string>spec/controllers/messages_controller_spec.rb</string>
 									<key>lastUsed</key>
-									<date>2012-09-22T01:23:33Z</date>
+									<date>2012-09-25T02:36:13Z</date>
 								</dict>
 								<dict>
 									<key>filename</key>
 									<string>app/controllers/messages_controller.rb</string>
 									<key>lastUsed</key>
-									<date>2012-09-22T01:23:33Z</date>
+									<date>2012-09-25T02:34:20Z</date>
 								</dict>
 								<dict>
 									<key>filename</key>
@@ -190,13 +211,13 @@
 							<key>filename</key>
 							<string>spec/controllers/users_controller_spec.rb</string>
 							<key>lastUsed</key>
-							<date>2012-09-22T01:23:34Z</date>
+							<date>2012-09-25T02:08:57Z</date>
 						</dict>
 						<dict>
 							<key>filename</key>
 							<string>app/controllers/users_controller.rb</string>
 							<key>lastUsed</key>
-							<date>2012-09-22T01:23:35Z</date>
+							<date>2012-09-25T02:08:58Z</date>
 						</dict>
 						<dict>
 							<key>filename</key>
@@ -208,7 +229,7 @@
 							<key>filename</key>
 							<string>app/models/user.rb</string>
 							<key>lastUsed</key>
-							<date>2012-09-22T17:59:56Z</date>
+							<date>2012-09-23T07:15:17Z</date>
 						</dict>
 					</array>
 					<key>expanded</key>
@@ -229,7 +250,7 @@
 							<key>filename</key>
 							<string>app/controllers/sessions_controller.rb</string>
 							<key>lastUsed</key>
-							<date>2012-09-20T02:58:33Z</date>
+							<date>2012-09-25T01:35:07Z</date>
 						</dict>
 					</array>
 					<key>expanded</key>
@@ -248,88 +269,74 @@
 	<integer>196</integer>
 	<key>metaData</key>
 	<dict>
-		<key>app/controllers/contacts_controller.rb</key>
+		<key>app/controllers/updates_controller.rb</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>30</integer>
+				<integer>3</integer>
 				<key>line</key>
-				<integer>7</integer>
+				<integer>8</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
-		</dict>
-		<key>app/models/relationship.rb</key>
-		<dict>
-			<key>caret</key>
+			<key>selectFrom</key>
 			<dict>
 				<key>column</key>
-				<integer>5</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>21</integer>
+				<integer>9</integer>
 			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>app/models/user.rb</key>
-		<dict>
-			<key>caret</key>
+			<key>selectTo</key>
 			<dict>
 				<key>column</key>
-				<integer>4</integer>
+				<integer>3</integer>
 				<key>line</key>
-				<integer>46</integer>
+				<integer>8</integer>
 			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
 		</dict>
 		<key>config/routes.rb</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>11</integer>
+				<integer>26</integer>
 				<key>line</key>
-				<integer>18</integer>
+				<integer>1</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>3</integer>
+			<integer>1</integer>
 		</dict>
-		<key>spec/controllers/contacts_controller_spec.rb</key>
+		<key>spec/controllers/updates_controller_spec.rb</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>21</integer>
+				<integer>11</integer>
 				<key>line</key>
-				<integer>50</integer>
+				<integer>14</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>36</integer>
+			<integer>0</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
-		<string>app/models/relationship.rb</string>
+		<string>app/controllers/updates_controller.rb</string>
 		<string>config/routes.rb</string>
-		<string>app/controllers/contacts_controller.rb</string>
-		<string>app/models/user.rb</string>
-		<string>spec/controllers/contacts_controller_spec.rb</string>
+		<string>spec/controllers/updates_controller_spec.rb</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{682, 112}, {691, 585}}</string>
+	<string>{{634, 149}, {691, 585}}</string>
 </dict>
 </plist>

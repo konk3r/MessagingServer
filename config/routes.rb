@@ -15,9 +15,10 @@ Smessage::Application.routes.draw do
   post 'user/device/:device_id/' => 'devices#create'
   delete 'user/device/:device_id/' => 'devices#destroy'
   
-  post 'user/contact/:contact_id/message' => 'messages#create'
-  get 'user/contact/:contact_id/messages/' => 'messages#show'
+  post 'user/message' => 'messages#create'
+  get 'user/messages' => 'messages#show'
   
+  get 'user/updates/' => 'updates#show'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

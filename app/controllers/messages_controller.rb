@@ -25,6 +25,8 @@ class MessagesController < ApplicationController
   def destroy
   end
   
+  protected
+  
   def verify_contact
     if !User.exists?(params[:contact_id])
       render :status => :not_found,
@@ -38,12 +40,35 @@ class MessagesController < ApplicationController
   end
   
   def build_request_parameters
-    sender_id = {sender_id: params[:user_id], receiver_id: params[:contact_id]}
-    @message_params = JSON.parse(params[:message_json])
-    @message_params.merge!(sender_id)
+    @message_params = {sender_id: params[:user_id], receiver_id: params[:contact_id],
+      sent_at: params[:sent_at], text: params[:text] }
   end
   
   def contact
     @contact ||= User.find_by_id(params[:contact_id])
+  end
+
+  def send_notification(message_text, collapse_key = :standard)
+    return if @contact.device_id == nil
+
+    device = Gcm::Device.find_by_registration_id(@contact.device_id)
+    if !device
+      device = Gcm::Device.new(:registration_id => @contact.device_id)
+    end
+    notification = Gcm::Notification.new
+    notification.device = device
+    notification.collapse_key = collapse_key
+    notification.delay_while_idle = false
+    notification.data = {:registration_ids => [@contact.device_id], :data => 
+      {:message_text => message_text.to_json}}
+
+    ApplicationHelper::send_notification(notification)
+  end
+
+  def contact_request
+    message = {:content =>
+      {:id => @current_user.id}}
+    type = {:type => :new_message}
+    return message.merge(type)
   end
 end
