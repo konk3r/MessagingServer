@@ -2,12 +2,13 @@ class Message < ActiveRecord::Base
   belongs_to :user_from, :class_name => "User", :foreign_key => "receiver_id"
   belongs_to :user_to, :class_name => "User", :foreign_key => "sender_id"
   attr_accessible :sent_at, :received_at, :text, :deleted,
-    :sender_id, :receiver_id, :private, :type
+    :sender_id, :receiver_id, :private, :message_type
   
   validates_presence_of :sender_id
   validates_presence_of :receiver_id
   validates_presence_of :text
   validates_presence_of :sent_at
+  validates_presence_of :message_type
   validate :sender_exists
   validate :receiver_exists
   
@@ -41,12 +42,12 @@ class Message < ActiveRecord::Base
   end
   
   def self.filter_params
-    allowed_params = [:sender_id, :receiver_id, :sent_at, :text, :type]
+    allowed_params = [:sender_id, :receiver_id, :sent_at, :text, :message_type]
     @params.select! { |k, v| allowed_params.include? k }
   end
   
   def as_json(params = nil)
     super.as_json(:only => 
-      ["deleted", "id", "private", "receiver_id", "sender_id", "text", "sent_at"])
+      ["deleted", "id", "private", "receiver_id", "sender_id", "text", "sent_at", "message_type"])
   end
 end

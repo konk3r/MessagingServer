@@ -40,7 +40,7 @@ describe MessagesController do
           user.should_receive(:contacts_with).and_return true
         
           post :create, contact_id: contact.id, sent_at: time, text: text,
-            user_id: user.id, api_key: user.api_key
+            user_id: user.id, api_key: user.api_key, message_type: :text
           @body = JSON.parse(response.body)
         end
       
@@ -78,18 +78,16 @@ describe MessagesController do
         message.should_receive(:new_record?).and_return true
         user.should_receive(:contacts_with).and_return true
         
-        post :create, contact_id: contact_id,
-          message_json: params.to_json, :user_id => user.id,
-          :api_key => user.api_key
+        post :create, contact_id: contact.id, sent_at: time, text: text,
+            user_id: user.id, api_key: user.api_key
         response.status.should == 400
       end
       
       it "should fail with a 403 error if the users aren't contacts" do
         User.should_receive(:exists?).at_least(1).times.and_return true
         
-        post :create, contact_id: contact_id,
-          message_json: params.to_json, :user_id => user.id,
-          :api_key => user.api_key
+        post :create, contact_id: contact.id, sent_at: time, text: text,
+            user_id: user.id, api_key: user.api_key
         response.status.should == 403
       end
     end

@@ -41,12 +41,12 @@ ActiveRecord::Schema.define(:version => 20120918200543) do
     t.string   "text"
     t.boolean  "deleted"
     t.boolean  "private"
-    t.string   "type"
+    t.string   "message_type"
     t.string   "media_uri"
     t.integer  "sender_id"
     t.integer  "receiver_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   add_index "messages", ["receiver_id"], :name => "index_messages_on_receiver_id"

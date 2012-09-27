@@ -49,23 +49,30 @@ describe Message do
     
     describe 'Invalid parameters' do
       
+      it 'should not create a message without a message type' do
+        params = {:sender_id => @sender_id, :receiver_id => @receiver_id,
+          :sent_at => @time, :text => @text, :message_type => :text}
+        message = Message.create_from_external_request(params)
+        message.should be_new_record if message
+      end
+      
       it 'should not create a message without a sent time' do
         params = {:sender_id => @sender_id, :receiver_id => @receiver_id,
-          :text => @text}
+          :text => @text, :message_type => :text}
         message = Message.create_from_external_request(params)
         message.should be_new_record if message
       end
       
       it 'should not create a message without text' do
         params = {:sender_id => @sender_id, :receiver_id => @receiver_id,
-          :sent_at => @time}
+          :sent_at => @time, :message_type => :text}
         message = Message.create_from_external_request(params)
         message.should be_new_record if message
       end
 
       it 'should not create a message without text' do
         params = {:sender_id => @sender_id, :receiver_id => @receiver_id,
-          :sent_at => @time}
+          :sent_at => @time, :message_type => :text}
         message = Message.create_from_external_request(params)
         message.should be_new_record if message
       end
@@ -75,7 +82,7 @@ describe Message do
         User.should_receive(:exists?).with(@receiver_id).and_return true
         
         params = {:sender_id => @sender_id, :receiver_id => @receiver_id,
-          :text => @text, :sent_at => @time, :deleted => true}
+          :text => @text, :sent_at => @time, :message_type => :text, :deleted => true}
         message = Message.create_from_external_request(params)
         message.deleted.should == nil
       end
@@ -88,7 +95,7 @@ describe Message do
         User.should_receive(:exists?).with(@receiver_id).and_return true
         
         params = {:sender_id => @sender_id, :receiver_id => @receiver_id,
-          :text => @text, :sent_at => @time}
+          :text => @text, :sent_at => @time, :message_type => :text}
         @message = Message.create_from_external_request(params)
       end
       

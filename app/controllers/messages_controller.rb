@@ -22,9 +22,6 @@ class MessagesController < ApplicationController
   def update
   end
   
-  def destroy
-  end
-  
   protected
   
   def verify_contact
@@ -41,7 +38,7 @@ class MessagesController < ApplicationController
   
   def build_request_parameters
     @message_params = {sender_id: params[:user_id], receiver_id: params[:contact_id],
-      sent_at: params[:sent_at], text: params[:text], type: params[:type] }
+      sent_at: params[:sent_at], text: params[:text], message_type: params[:message_type] }
   end
   
   def contact

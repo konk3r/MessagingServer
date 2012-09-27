@@ -6,7 +6,7 @@ class CreateMessages < ActiveRecord::Migration
       t.string :text
       t.boolean :deleted
       t.boolean :private
-      t.string :type
+      t.string :message_type
       t.string :media_uri
       t.references :sender
       t.references :receiver

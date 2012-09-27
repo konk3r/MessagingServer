@@ -30,7 +30,6 @@ describe UpdatesController do
     it 'should return all updates after requested date' do
       get :show, :updates_since => @time, :user_id => user.id, :api_key => api_key
       response.status.should == 200
-      puts response.body
     end
   end
 end
