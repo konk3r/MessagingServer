@@ -31,7 +31,6 @@ class Message < ActiveRecord::Base
     @params = params
     convert_param_keys_to_symbols
     filter_params
-    @params.merge!(:type => :text)
     message = Message.create(@params)
   end
   
@@ -42,7 +41,7 @@ class Message < ActiveRecord::Base
   end
   
   def self.filter_params
-    allowed_params = [:sender_id, :receiver_id, :sent_at, :text]
+    allowed_params = [:sender_id, :receiver_id, :sent_at, :text, :type]
     @params.select! { |k, v| allowed_params.include? k }
   end
   

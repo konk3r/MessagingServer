@@ -9,12 +9,12 @@ class MessagesController < ApplicationController
       render :status => :bad_request, :json => 
         {:error => "Could not create message with given parameters"}
     else
+      send_notification new_message
       render :status => :created, :json => message
     end
   end
 
   def show
-    puts "showin"
     conversation = Message.conversation_between(@current_user, self.contact)
     render :status => :ok, :json => conversation
   end
@@ -41,7 +41,7 @@ class MessagesController < ApplicationController
   
   def build_request_parameters
     @message_params = {sender_id: params[:user_id], receiver_id: params[:contact_id],
-      sent_at: params[:sent_at], text: params[:text] }
+      sent_at: params[:sent_at], text: params[:text], type: params[:type] }
   end
   
   def contact
@@ -65,7 +65,7 @@ class MessagesController < ApplicationController
     ApplicationHelper::send_notification(notification)
   end
 
-  def contact_request
+  def new_message
     message = {:content =>
       {:id => @current_user.id}}
     type = {:type => :new_message}

@@ -6,13 +6,14 @@ describe MessagesController do
   let(:non_user_id) { 3 }
   let(:fake_api_key) { 'this seems wrong' }
   let(:api_key) { 'this is a randomly generated key, I promise' }
+  let(:device_id) {'APA91bHlrzyjbLqE7oiC-I0ZIZ2ZdayU3vbEAMDYeP45ZcvuTf_-P3yqs9KxYgASFoOJzMzanRh6itt2QI-QoMLxfkRX5Eft39fl1cZT89uA76HUzDKx0pOarTg8FWu5IFt4xIgqXEG3tAuE3c8PI6bU5ApsbePzlEzkjYBSDAfisCHFB7UOJKA'}
   let(:time) { Time.zone.now }
   let(:text) { 'Message text' }
   let(:params) { {"sent_at" => time, "text" => text} }
   let(:user) { FactoryGirl.build(:user, id:user_id, api_key:api_key) }
   let(:message) { FactoryGirl.build(:message) }
   let(:contact) { 
-    FactoryGirl.build(:user, id:contact_id, username: :contact) }
+    FactoryGirl.build(:user, id:contact_id, username: :contact, device_id: device_id) }
   
   describe 'Sending a message' do
     
@@ -30,7 +31,7 @@ describe MessagesController do
     describe 'response' do
       before :each do
         User.should_receive(:find_by_id).and_return(user)
-        User.should_receive(:find_by_id).with(contact.id.to_s).and_return(user)
+        User.should_receive(:find_by_id).with(contact.id.to_s).and_return(contact)
       end
       
       describe 'if successful' do
