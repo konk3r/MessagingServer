@@ -22,6 +22,6 @@ before_filter :authenticate_user
     updates = {}
     updates.merge!({contacts:@contact_updates}) if @contact_updates
     updates.merge!({messages:@message_updates}) if @message_updates
-    updates.merge!({last_update:@time_of_update})
+    updates.merge!({last_update:@time_of_update.strftime("%Y-%m-%d %H:%M:%S.%12N %z")})
   end
 end

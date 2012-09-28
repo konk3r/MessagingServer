@@ -47,7 +47,7 @@ class Message < ActiveRecord::Base
   end
   
   def as_json(params = nil)
-    super.as_json(:only => 
-      ["deleted", "id", "private", "receiver_id", "sender_id", "text", "sent_at", "message_type"])
+    super.as_json(:only => ["deleted", "id", "private", "receiver_id",
+      "sender_id", "text", "sent_at", "message_type"])
   end
 end

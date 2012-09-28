@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   
   def with_session_details
     members = {:username => self.username, :name => self.name, :id => self.id, 
-      :api_key => self.api_key, :last_update => Time.zone.now}
+      :api_key => self.api_key, :last_update => current_time}
   end
   
   def name
@@ -77,6 +77,10 @@ class User < ActiveRecord::Base
 
   def secure_digest(*args)
     Digest::SHA1.hexdigest(args.flatten.join('--'))
+  end
+  
+  def current_time
+    Time.zone.now.strftime("%Y-%m-%d %H:%M:%S.%12N %z")
   end
     
 end
