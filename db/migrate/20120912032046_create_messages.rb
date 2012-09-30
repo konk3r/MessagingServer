@@ -1,8 +1,8 @@
 class CreateMessages < ActiveRecord::Migration
   def self.up
     create_table :messages do |t|
-      t.datetime :sent_at
-      t.datetime :received_at
+      t.string :sent_at
+      t.string :received_at
       t.string :text
       t.boolean :deleted
       t.boolean :private

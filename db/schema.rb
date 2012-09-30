@@ -36,8 +36,8 @@ ActiveRecord::Schema.define(:version => 20120918200543) do
   add_index "gcm_notifications", ["device_id"], :name => "index_gcm_notifications_on_device_id"
 
   create_table "messages", :force => true do |t|
-    t.datetime "sent_at"
-    t.datetime "received_at"
+    t.string   "sent_at"
+    t.string   "received_at"
     t.string   "text"
     t.boolean  "deleted"
     t.boolean  "private"
