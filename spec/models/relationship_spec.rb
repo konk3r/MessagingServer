@@ -10,7 +10,7 @@ describe Relationship do
   
   it 'should return only contact id and approved status with to_json' do
     requesting.to_json.should include("approved")
-    requesting.to_json.should include("contact_id")
+    requesting.to_json.should include("id")
     requesting.to_json.should_not include("user_id")
   end
   

@@ -1,6 +1,6 @@
 class Message < ActiveRecord::Base
-  belongs_to :user_from, :class_name => "User", :foreign_key => "receiver_id"
-  belongs_to :user_to, :class_name => "User", :foreign_key => "sender_id"
+  belongs_to :receiver, :class_name => "User", :foreign_key => "receiver_id"
+  belongs_to :sender, :class_name => "User", :foreign_key => "sender_id"
   attr_accessible :sent_at, :received_at, :text, :deleted,
     :sender_id, :receiver_id, :private, :message_type
   
@@ -50,4 +50,5 @@ class Message < ActiveRecord::Base
     super.as_json(:only => ["deleted", "id", "private", "receiver_id",
        "sender_id", "text", "sent_at", "message_type"])
   end
+  
 end
