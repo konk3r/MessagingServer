@@ -139,13 +139,13 @@
 									<key>filename</key>
 									<string>spec/models/relationship_spec.rb</string>
 									<key>lastUsed</key>
-									<date>2012-09-20T18:57:44Z</date>
+									<date>2012-10-05T02:24:08Z</date>
 								</dict>
 								<dict>
 									<key>filename</key>
 									<string>app/models/relationship.rb</string>
 									<key>lastUsed</key>
-									<date>2012-09-30T08:10:53Z</date>
+									<date>2012-10-05T02:24:08Z</date>
 									<key>selected</key>
 									<true/>
 								</dict>
@@ -318,30 +318,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>37</integer>
+				<integer>5</integer>
 				<key>line</key>
-				<integer>16</integer>
+				<integer>53</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>55</integer>
-				<key>line</key>
-				<integer>16</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>37</integer>
-				<key>line</key>
-				<integer>16</integer>
-			</dict>
+			<integer>30</integer>
 		</dict>
 		<key>db/migrate/20120914203612_create_relationships.rb</key>
 		<dict>
@@ -413,6 +397,20 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>spec/models/relationship_spec.rb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>39</integer>
+				<key>line</key>
+				<integer>12</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
@@ -421,6 +419,7 @@
 		<string>spec/controllers/updates_controller_spec.rb</string>
 		<string>spec/models/message_spec.rb</string>
 		<string>app/models/relationship.rb</string>
+		<string>spec/models/relationship_spec.rb</string>
 		<string>app/models/message.rb</string>
 		<string>db/migrate/20120914203612_create_relationships.rb</string>
 		<string>app/controllers/messages_controller.rb</string>

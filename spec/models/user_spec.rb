@@ -39,8 +39,8 @@ describe User do
     end
     
     it 'should return the full name it was created with' do
-      full_name = first_name + " " + last_name
-      user.name.should == full_name
+      user.first_name.should == first_name
+      user.last_name.should == last_name
       user.should_not be_new_record
     end
     
@@ -71,12 +71,11 @@ describe User do
   describe 'Generating JSON' do
     it 'should create JSON with limited fields for mobile requests' do
       json = user.to_json
-      json.should include "name"
+      json.should include "first_name"
+      json.should include "last_name"
       json.should include "username"
       json.should include "id"
       json.should_not include "password"
-      json.should_not include "first_name"
-      json.should_not include "last_name"
     end
   end
   
@@ -122,6 +121,19 @@ describe User do
       user.remove_device!(device_id)
       user.device_id.should == nil
     end
+  end
+  
+  describe 'Adding a photo' do
+    it 'should be able to add a photo to the aws bucket' do
+      user.set_photo("axcfdsagerqw")
+    end
+    
+    it 'should return json containing the url for the photo' do
+      user.set_photo("axcfdsagerqw")
+      json = user.to_json
+      json.should include "image_url"
+    end
+    
   end
 end
 

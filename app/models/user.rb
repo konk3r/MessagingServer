@@ -6,25 +6,48 @@ class User < ActiveRecord::Base
   has_many :relationships, dependent: :destroy
   has_many :contacts, through: :relationships, source: :contact
   
-  attr_accessible :username, :password, :first_name, :last_name, :device_id, :api_key
+  attr_accessible :username, :password, :first_name, :last_name, :device_id,
+    :api_key, :current_photo
   
   validates_presence_of :username
   validates_presence_of :password, :on => :create
   validates_uniqueness_of :username
     
   def as_json(params = nil)
-    super(:only => [:username, :id], :methods => "name")
+    return super(:only => [:username, :id, :first_name, :last_name]) unless current_photo
+    
+    super(:only => [:username, :id, :first_name, :last_name], :methods => "image_url")
+  end
+
+  def set_photo(image)
+    return false unless image
+    
+    bucket = ImageHelper.profile_photo_bucket
+    filename = ImageHelper.profile_photo_name self
+    ImageHelper.put(bucket, filename, image)
+
+    if self.current_photo == nil
+      self.current_photo = 1
+    else
+      self.current_photo += 1
+    end
+    true
   end
   
-  def with_session_details
-    members = {:username => self.username, :name => self.name, :id => self.id, 
-      :api_key => self.api_key, :last_update => current_time}
+  def image_url
+    ImageHelper.build_photo_url(self)
   end
   
   def name
     self.first_name ||= ""
     self.last_name ||= ""
     self.first_name + " " + self.last_name
+  end
+  
+  def with_session_details
+    members = {:username => self.username, :first_name => self.first_name,
+      :last_name => self.last_name, :id => self.id, :api_key => self.api_key,
+      :last_update => current_time}
   end
   
   def generate_api_key!

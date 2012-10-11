@@ -56,6 +56,18 @@ describe UsersController do
     end  
   end
   
+  describe "Updating a user" do
+    before :each do
+      user.save
+      put :update, :user_id => user.id, :api_key => user.api_key, 
+        :first_name => user.first_name, :last_name => user.last_name,
+        :image => "asdflk;jxzcv.n,safio", :image_content_type => "image/jpeg"
+    end
+    it "should be able to update" do
+      response.status.should == 200
+    end
+  end
+  
   describe "Deleting a user" do
     it "should return 401 error on if not authenticated" do
       delete :destroy, id:user.id

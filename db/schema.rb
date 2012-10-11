@@ -73,8 +73,11 @@ ActiveRecord::Schema.define(:version => 20120918200543) do
     t.string   "last_name"
     t.string   "device_id"
     t.string   "api_key"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.string   "status"
+    t.datetime "status_updated_at"
+    t.integer  "current_photo"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
   end
 
 end

@@ -7,6 +7,10 @@ class CreateUsers < ActiveRecord::Migration
       t.string :last_name
       t.string :device_id
       t.string :api_key
+      t.string :status
+      t.datetime :status_updated_at
+      t.integer :current_photo
+      
       t.timestamps
     end
   end
