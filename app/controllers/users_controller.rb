@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user, :only => [:destroy, :update]
+  before_filter :authenticate_user, :only => :destroy
   before_filter :filter_params, :only => :create
   before_filter :load_image, :only => :update
   
