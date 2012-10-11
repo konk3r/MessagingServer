@@ -79,7 +79,7 @@ describe UsersController do
       User.should_receive(:find_by_id).and_return(user)
       user.should_receive(:destroy)
       
-      delete :destroy, :user_id => user.id, :api_key => user.api_key
+      put :destroy, :user_id => user.id, :api_key => user.api_key
       
       response.status.should == 200
     end

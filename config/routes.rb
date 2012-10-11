@@ -5,7 +5,7 @@ Smessage::Application.routes.draw do
   delete 'device/logout/' => 'sessions#destroy'
   
   post 'user/sign_up' => 'users#create'
-  delete 'user/update' => 'users#update'
+  put 'user/update' => 'users#update'
   delete 'user/delete' => 'users#destroy'
   
   get 'user/contacts' => 'contacts#show'
