@@ -7,6 +7,7 @@ describe UsersController do
   let(:user) { FactoryGirl.build(
     :user, username:'username', password:'password', first_name:'first', last_name:'last', 
     api_key:api_key) }
+  let(:image) { {content_type:"image/jpeg", tempfile:["stuff"]} }
   
   describe 'Creating a user' do
     it 'should result in a create call being sent to the User model' do
@@ -61,7 +62,7 @@ describe UsersController do
       user.save
       put :update, :user_id => user.id, :api_key => user.api_key, 
         :first_name => user.first_name, :last_name => user.last_name,
-        :image => "asdflk;jxzcv.n,safio", :image_content_type => "image/jpeg"
+        :image => image
     end
     it "should be able to update" do
       response.status.should == 200
