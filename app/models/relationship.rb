@@ -51,7 +51,7 @@ class Relationship < ActiveRecord::Base
     params = { id:self.contact_id, approved:self.approved,
       username:self.contact.username, name:self.contact.name }
     if self.contact.current_photo
-      params.merge! { image_url:self.contact.image_url } 
+      params.merge!({ image_url:self.contact.image_url })
     end
     return params.as_json
   end
