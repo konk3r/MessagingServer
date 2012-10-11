@@ -15,9 +15,9 @@ class UsersController < ApplicationController
   end
   
   def update
-    update_user_params
-    
     render :json => params and return
+
+    update_user_params
     
     setup_update_response
     if @current_user.valid?
