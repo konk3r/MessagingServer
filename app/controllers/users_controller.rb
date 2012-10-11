@@ -33,7 +33,7 @@ class UsersController < ApplicationController
   protected
   
   def update_user_params
-    @current_user.set_photo @image.tempfile[0] if @image
+    @current_user.set_photo @image.tempfile if @image
     
     @current_user.first_name = params[:first_name] if params.include? :first_name
     @current_user.last_name = params[:last_name] if params.include? :last_name
