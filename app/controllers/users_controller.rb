@@ -15,7 +15,7 @@ class UsersController < ApplicationController
   end
   
   def update
-    render :json => request.headers and return
+    render :json => params and return
 
     update_user_params
     
