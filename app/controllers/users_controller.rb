@@ -15,9 +15,7 @@ class UsersController < ApplicationController
   end
   
   def update
-    file_params = params.select { |name,value| value.is_a?(File) || value.is_a?(Tempfile) }
-    json = { :file_size => file_params.size}
-    render :json => json and return
+    render :json => params and return
 
     update_user_params
     
