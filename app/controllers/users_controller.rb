@@ -33,7 +33,7 @@ class UsersController < ApplicationController
   protected
   
   def update_user_params
-    @current_user.set_photo @image[:tempfile][0] if @image
+    @current_user.set_photo @image.tempfile[0] if @image
     
     @current_user.first_name = params[:first_name] if params.include? :first_name
     @current_user.last_name = params[:last_name] if params.include? :last_name
@@ -88,7 +88,7 @@ class UsersController < ApplicationController
   def load_image
     if params.include? :image
       image = params[:image]
-      @image = image if image[:content_type] == "image/jpeg"
+      @image = image if image.content_type == "image/jpeg"
     end
   end
   
