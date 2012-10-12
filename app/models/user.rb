@@ -47,7 +47,11 @@ class User < ActiveRecord::Base
   def with_session_details
     members = {:username => self.username, :first_name => self.first_name,
       :last_name => self.last_name, :id => self.id, :api_key => self.api_key,
-      :last_update => current_time}
+      :last_update => self.current_time, :image_url => self.image_url}
+
+    members.merge! ({ :image_url => self.image_url }) if self.current_photo
+
+    return members
   end
   
   def generate_api_key!
