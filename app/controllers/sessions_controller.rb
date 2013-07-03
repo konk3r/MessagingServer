@@ -2,7 +2,8 @@ class SessionsController < ApplicationController
   before_filter :authenticate_user, :only => :destroy
   
   def create
-    user = User.find_by_username(params[:username])
+    username = params[:username].downcase if params[:username]
+    user = User.find_by_username(username)
     if user && user.authenticate(params[:password])
       user.generate_api_key!
       render :status => :ok, :json => user.with_session_details

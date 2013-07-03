@@ -83,6 +83,7 @@ class UsersController < ApplicationController
   def filter_params
     allowed_params = ["username", "password", "first_name", "last_name"]
     @params = params.select {|k, v| allowed_params.include? k}
+    @params["username"] = @params["username"].downcase if @params["username"]
   end
   
   def load_image
